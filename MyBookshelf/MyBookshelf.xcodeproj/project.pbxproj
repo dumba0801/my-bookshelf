@@ -11,12 +11,20 @@
 		0C33F39763E9927278B7A8D3 /* Pods_MyBookshelfTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15165FCDA66DAB264B92172 /* Pods_MyBookshelfTests.framework */; };
 		31969EDC276874C8004DA6E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969EDB276874C8004DA6E1 /* AppDelegate.swift */; };
 		31969EDE276874C8004DA6E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969EDD276874C8004DA6E1 /* SceneDelegate.swift */; };
-		31969EE0276874C8004DA6E1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969EDF276874C8004DA6E1 /* ViewController.swift */; };
+		31969EE0276874C8004DA6E1 /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969EDF276874C8004DA6E1 /* AppViewController.swift */; };
 		31969EE5276874C9004DA6E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31969EE4276874C9004DA6E1 /* Assets.xcassets */; };
 		31969EE8276874C9004DA6E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31969EE6276874C9004DA6E1 /* LaunchScreen.storyboard */; };
 		31969EF3276874C9004DA6E1 /* MyBookshelfTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969EF2276874C9004DA6E1 /* MyBookshelfTests.swift */; };
 		31969EFD276874C9004DA6E1 /* MyBookshelfUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969EFC276874C9004DA6E1 /* MyBookshelfUITests.swift */; };
 		31969EFF276874C9004DA6E1 /* MyBookshelfUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969EFE276874C9004DA6E1 /* MyBookshelfUITestsLaunchTests.swift */; };
+		31969F0F2768852A004DA6E1 /* NewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F0E2768852A004DA6E1 /* NewInteractor.swift */; };
+		31969F1127688538004DA6E1 /* NewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1027688538004DA6E1 /* NewPresenter.swift */; };
+		31969F1327688540004DA6E1 /* NewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1227688540004DA6E1 /* NewRouter.swift */; };
+		31969F1627688563004DA6E1 /* NewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1527688563004DA6E1 /* NewView.swift */; };
+		31969F1C2768A2D0004DA6E1 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1B2768A2D0004DA6E1 /* Book.swift */; };
+		31969F1E27698237004DA6E1 /* NewBookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1D27698237004DA6E1 /* NewBookCollectionViewCell.swift */; };
+		31969F202769A0BD004DA6E1 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1F2769A0BD004DA6E1 /* APIService.swift */; };
+		31969F222769C5C7004DA6E1 /* NewInteractorUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F212769C5C7004DA6E1 /* NewInteractorUseCase.swift */; };
 		E1FCBF6E9A5E36A82A4268F1 /* Pods_MyBookshelf_MyBookshelfUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A6937D0C98089DA400260BD /* Pods_MyBookshelf_MyBookshelfUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,7 +51,7 @@
 		31969ED8276874C8004DA6E1 /* MyBookshelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBookshelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31969EDB276874C8004DA6E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31969EDD276874C8004DA6E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		31969EDF276874C8004DA6E1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		31969EDF276874C8004DA6E1 /* AppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
 		31969EE4276874C9004DA6E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		31969EE7276874C9004DA6E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		31969EE9276874C9004DA6E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -52,6 +60,14 @@
 		31969EF8276874C9004DA6E1 /* MyBookshelfUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyBookshelfUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		31969EFC276874C9004DA6E1 /* MyBookshelfUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookshelfUITests.swift; sourceTree = "<group>"; };
 		31969EFE276874C9004DA6E1 /* MyBookshelfUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBookshelfUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		31969F0E2768852A004DA6E1 /* NewInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewInteractor.swift; sourceTree = "<group>"; };
+		31969F1027688538004DA6E1 /* NewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPresenter.swift; sourceTree = "<group>"; };
+		31969F1227688540004DA6E1 /* NewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRouter.swift; sourceTree = "<group>"; };
+		31969F1527688563004DA6E1 /* NewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewView.swift; sourceTree = "<group>"; };
+		31969F1B2768A2D0004DA6E1 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		31969F1D27698237004DA6E1 /* NewBookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookCollectionViewCell.swift; sourceTree = "<group>"; };
+		31969F1F2769A0BD004DA6E1 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		31969F212769C5C7004DA6E1 /* NewInteractorUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewInteractorUseCase.swift; sourceTree = "<group>"; };
 		8460825E922582F5B59F2D82 /* Pods-MyBookshelfTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBookshelfTests.debug.xcconfig"; path = "Target Support Files/Pods-MyBookshelfTests/Pods-MyBookshelfTests.debug.xcconfig"; sourceTree = "<group>"; };
 		95C9FE8FCE83190FFF0C8065 /* Pods-MyBookshelfTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBookshelfTests.release.xcconfig"; path = "Target Support Files/Pods-MyBookshelfTests/Pods-MyBookshelfTests.release.xcconfig"; sourceTree = "<group>"; };
 		97DDA04BEF77AD5D92345B56 /* Pods-MyBookshelf-MyBookshelfUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBookshelf-MyBookshelfUITests.debug.xcconfig"; path = "Target Support Files/Pods-MyBookshelf-MyBookshelfUITests/Pods-MyBookshelf-MyBookshelfUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -114,12 +130,11 @@
 		31969EDA276874C8004DA6E1 /* MyBookshelf */ = {
 			isa = PBXGroup;
 			children = (
-				31969EDB276874C8004DA6E1 /* AppDelegate.swift */,
-				31969EDD276874C8004DA6E1 /* SceneDelegate.swift */,
-				31969EDF276874C8004DA6E1 /* ViewController.swift */,
-				31969EE4276874C9004DA6E1 /* Assets.xcassets */,
-				31969EE6276874C9004DA6E1 /* LaunchScreen.storyboard */,
-				31969EE9276874C9004DA6E1 /* Info.plist */,
+				31E782BD276B11B9007AA9F2 /* Search */,
+				31969F1A2768A2BA004DA6E1 /* Model */,
+				31969F1927689F6F004DA6E1 /* Network */,
+				31969F0D27688506004DA6E1 /* New */,
+				31969F0B2768807F004DA6E1 /* App */,
 			);
 			path = MyBookshelf;
 			sourceTree = "<group>";
@@ -141,6 +156,63 @@
 			path = MyBookshelfUITests;
 			sourceTree = "<group>";
 		};
+		31969F0B2768807F004DA6E1 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				31969F0C2768808F004DA6E1 /* Assets */,
+				31969EDB276874C8004DA6E1 /* AppDelegate.swift */,
+				31969EDD276874C8004DA6E1 /* SceneDelegate.swift */,
+				31969EDF276874C8004DA6E1 /* AppViewController.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		31969F0C2768808F004DA6E1 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				31969EE4276874C9004DA6E1 /* Assets.xcassets */,
+				31969EE6276874C9004DA6E1 /* LaunchScreen.storyboard */,
+				31969EE9276874C9004DA6E1 /* Info.plist */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		31969F0D27688506004DA6E1 /* New */ = {
+			isa = PBXGroup;
+			children = (
+				31969F0E2768852A004DA6E1 /* NewInteractor.swift */,
+				31969F1027688538004DA6E1 /* NewPresenter.swift */,
+				31969F1227688540004DA6E1 /* NewRouter.swift */,
+				31969F1527688563004DA6E1 /* NewView.swift */,
+				31969F1D27698237004DA6E1 /* NewBookCollectionViewCell.swift */,
+			);
+			path = New;
+			sourceTree = "<group>";
+		};
+		31969F1927689F6F004DA6E1 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				31969F1F2769A0BD004DA6E1 /* APIService.swift */,
+				31969F212769C5C7004DA6E1 /* NewInteractorUseCase.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		31969F1A2768A2BA004DA6E1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				31969F1B2768A2D0004DA6E1 /* Book.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		31E782BD276B11B9007AA9F2 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		9A75253ABBEC09A146FC71A9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,7 +223,6 @@
 				8460825E922582F5B59F2D82 /* Pods-MyBookshelfTests.debug.xcconfig */,
 				95C9FE8FCE83190FFF0C8065 /* Pods-MyBookshelfTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -403,9 +474,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31969EE0276874C8004DA6E1 /* ViewController.swift in Sources */,
+				31969EE0276874C8004DA6E1 /* AppViewController.swift in Sources */,
+				31969F1E27698237004DA6E1 /* NewBookCollectionViewCell.swift in Sources */,
 				31969EDC276874C8004DA6E1 /* AppDelegate.swift in Sources */,
+				31969F202769A0BD004DA6E1 /* APIService.swift in Sources */,
 				31969EDE276874C8004DA6E1 /* SceneDelegate.swift in Sources */,
+				31969F0F2768852A004DA6E1 /* NewInteractor.swift in Sources */,
+				31969F1C2768A2D0004DA6E1 /* Book.swift in Sources */,
+				31969F1627688563004DA6E1 /* NewView.swift in Sources */,
+				31969F1127688538004DA6E1 /* NewPresenter.swift in Sources */,
+				31969F222769C5C7004DA6E1 /* NewInteractorUseCase.swift in Sources */,
+				31969F1327688540004DA6E1 /* NewRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,7 +658,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HB2J52X7V7;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MyBookshelf/Info.plist;
+				INFOPLIST_FILE = MyBookshelf/App/Assets/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -607,7 +686,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HB2J52X7V7;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MyBookshelf/Info.plist;
+				INFOPLIST_FILE = MyBookshelf/App/Assets/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
