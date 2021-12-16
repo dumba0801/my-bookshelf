@@ -15,8 +15,8 @@ final class NewInteractorUseCase {
     
     func requestNewBooks() -> Single<[Book]> {
         let endpoint = EndPoint(path: .new)
-        
-        return service.request(endpoint: endpoint)
+        let url = endpoint.url()
+        return service.request(convertible: url!)
             .map { data in
                 let json = JSON(data)
                 let object = json["books"].arrayObject
@@ -25,7 +25,9 @@ final class NewInteractorUseCase {
             }
     }
 }
-
-final class NewInteractirUsecase {
-    
+extension String {
+    func image() -> Single<UIImage?> {
+        return APIService.shared.request(convertible: self)
+            .map{ UIImage(data: $0) }
+    }
 }
