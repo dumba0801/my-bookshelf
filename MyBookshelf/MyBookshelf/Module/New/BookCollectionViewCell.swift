@@ -11,7 +11,7 @@ import RxCocoa
 import SnapKit
 
 class BookCollectionViewCell: UICollectionViewCell {
-    static let identifier = "NewBookCollectionViewCell"
+    static let identifier = "BookCollectionViewCell"
     
     private lazy var imageView: UIImageView = {
        var imageView = UIImageView()
@@ -96,6 +96,25 @@ class BookCollectionViewCell: UICollectionViewCell {
         .flatMap { $0.image() }
         .bind(to: imageView.rx.image)
         .disposed(by: disposeBag)
+    }
+    
+    func adjustLayout() {
+        _ = subtitleLabel.text != nil ? nonEmptySubtitleLabelLayout() : emptySubtitleLabelLayout()
+    }
+    
+    
+    private func emptySubtitleLabelLayout() {
+        priceLabel.snp.remakeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(Metric.priceTop)
+            make.leading.trailing.equalToSuperview()
+        }
+    }
+    
+    private func nonEmptySubtitleLabelLayout() {
+        priceLabel.snp.remakeConstraints { make in
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(Metric.priceTop)
+            make.leading.trailing.equalToSuperview()
+        }
     }
     
     override func prepareForReuse() {

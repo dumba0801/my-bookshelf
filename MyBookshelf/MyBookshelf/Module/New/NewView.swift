@@ -16,7 +16,7 @@ protocol NewViewControllerType: AnyObject {
 }
 
 final class NewViewController: UIViewController {
-    typealias Cell = NewBookCollectionViewCell
+    typealias Cell = BookCollectionViewCell
     
     var presenter: NewPresenterType?
     
@@ -35,6 +35,7 @@ final class NewViewController: UIViewController {
 
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 1)
         addSubviews()
         configureLayout()
         presenter.fetchNewBooks(subject: Observable.just(()))

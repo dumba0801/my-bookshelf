@@ -38,6 +38,7 @@ final class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        navigationItem.title = "Search"
         tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 2) // need refactor
         addSubviews()
         configureLayout()
@@ -61,7 +62,7 @@ final class SearchViewController: UIViewController {
     
     private func configureLayout() {
         searchBar.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview()
             make.top.equalTo(view.snp_topMargin)
         }
         
@@ -71,11 +72,6 @@ final class SearchViewController: UIViewController {
             make.bottom.equalToSuperview()
         }
     }
-
-    
-
-    
-    
 }
 
 extension SearchViewController: SearchViewType {
@@ -106,6 +102,5 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? Cell else { return }
         cell.adjustLayout()
-    }
-    
+    }    
 }

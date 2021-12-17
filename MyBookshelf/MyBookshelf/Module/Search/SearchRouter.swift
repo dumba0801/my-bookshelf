@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import UIKit
 
 protocol SearchRouterType: AnyObject {
     
 }
 
 final class SearchRouter: SearchRouterType {
+    static var navigation: UINavigationController?
+    
     func createModule() -> SearchViewController {
         let view = SearchViewController()
         let presenter = SearchPresenter()
@@ -24,4 +27,5 @@ final class SearchRouter: SearchRouterType {
         
         return view
     }
+    
 }
