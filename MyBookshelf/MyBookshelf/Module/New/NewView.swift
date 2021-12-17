@@ -35,6 +35,7 @@ final class NewViewController: UIViewController {
 
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        navigationItem.title = "New"
         tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 1)
         addSubviews()
         configureLayout()
@@ -74,4 +75,10 @@ extension NewViewController: UICollectionViewDelegateFlowLayout {
         
         return CGSize(width: width, height: height)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? Cell else { return }
+        cell.adjustLayout()
+    }
 }
+

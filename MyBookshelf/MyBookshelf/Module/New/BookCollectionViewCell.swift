@@ -16,24 +16,28 @@ class BookCollectionViewCell: UICollectionViewCell {
     private lazy var imageView: UIImageView = {
        var imageView = UIImageView()
         imageView.backgroundColor = .gray
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.numberOfLines = Constant.titleNumberOfLines
+        label.font = Font.titleLabel
         return label
     }()
     
     private lazy var subtitleLabel: UILabel = {
         var label = UILabel()
         label.numberOfLines = Constant.subtitleNumberOfLines
+        label.font = Font.subtitleLabel
         return label
     }()
     
     private lazy var priceLabel: UILabel = {
         var label = UILabel()
+        label.font = Font.priceLabel
+        label.textColor = Constant.priceLabelColor
         return label
     }()
     
@@ -84,7 +88,7 @@ class BookCollectionViewCell: UICollectionViewCell {
         .bind(to: titleLabel.rx.text)
         .disposed(by: disposeBag)
         
-        subject.map{ $0.subtitle }
+        subject.compactMap{ $0.subtitle }
         .bind(to: subtitleLabel.rx.text)
         .disposed(by: disposeBag)
         
@@ -126,13 +130,21 @@ class BookCollectionViewCell: UICollectionViewCell {
 
 extension BookCollectionViewCell {
     private enum Metric {
-        static let titleLabelTop = CGFloat(10)
-        static let subtitleTop = CGFloat(10)
-        static let priceTop = CGFloat(10)
+        static let titleLabelTop = CGFloat(2)
+        static let subtitleTop = CGFloat(2)
+        static let priceTop = CGFloat(2)
     }
-    
+
+    private enum Font {
+        static let titleLabel = UIFont.boldSystemFont(ofSize: 14)
+        static let subtitleLabel = UIFont.systemFont(ofSize: 12)
+        static let priceLabel = UIFont.systemFont(ofSize: 12)
+    }
+
     private enum Constant {
         static let titleNumberOfLines = 2
         static let subtitleNumberOfLines = 1
+        static let priceLabelColor = UIColor.gray
     }
+    
 }
