@@ -16,7 +16,7 @@ final class NewInteractorUseCase {
     func requestNewBooks() -> Single<[Book]> {
         let endpoint = EndPoint(path: .new)
         let url = endpoint.url()
-        return service.request(convertible: url!)
+        return service.request(convertible: url!) //need refactor
             .map { data in
                 let json = JSON(data)
                 let object = json["books"].arrayObject

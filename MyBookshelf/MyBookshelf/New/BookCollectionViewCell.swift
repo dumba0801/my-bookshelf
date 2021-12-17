@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class NewBookCollectionViewCell: UICollectionViewCell {
+class BookCollectionViewCell: UICollectionViewCell {
     static let identifier = "NewBookCollectionViewCell"
     
     private lazy var imageView: UIImageView = {
@@ -105,7 +105,7 @@ class NewBookCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension NewBookCollectionViewCell {
+extension BookCollectionViewCell {
     private enum Metric {
         static let titleLabelTop = CGFloat(10)
         static let subtitleTop = CGFloat(10)

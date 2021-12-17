@@ -22,9 +22,13 @@
 		31969F1327688540004DA6E1 /* NewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1227688540004DA6E1 /* NewRouter.swift */; };
 		31969F1627688563004DA6E1 /* NewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1527688563004DA6E1 /* NewView.swift */; };
 		31969F1C2768A2D0004DA6E1 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1B2768A2D0004DA6E1 /* Book.swift */; };
-		31969F1E27698237004DA6E1 /* NewBookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1D27698237004DA6E1 /* NewBookCollectionViewCell.swift */; };
+		31969F1E27698237004DA6E1 /* BookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1D27698237004DA6E1 /* BookCollectionViewCell.swift */; };
 		31969F202769A0BD004DA6E1 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1F2769A0BD004DA6E1 /* APIService.swift */; };
 		31969F222769C5C7004DA6E1 /* NewInteractorUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F212769C5C7004DA6E1 /* NewInteractorUseCase.swift */; };
+		31E782BF276B142F007AA9F2 /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E782BE276B142F007AA9F2 /* SearchInteractor.swift */; };
+		31E782C1276B1438007AA9F2 /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E782C0276B1438007AA9F2 /* SearchPresenter.swift */; };
+		31E782C3276B1444007AA9F2 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E782C2276B1444007AA9F2 /* SearchView.swift */; };
+		31E782C5276B144B007AA9F2 /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E782C4276B144B007AA9F2 /* SearchRouter.swift */; };
 		E1FCBF6E9A5E36A82A4268F1 /* Pods_MyBookshelf_MyBookshelfUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A6937D0C98089DA400260BD /* Pods_MyBookshelf_MyBookshelfUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,9 +69,13 @@
 		31969F1227688540004DA6E1 /* NewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRouter.swift; sourceTree = "<group>"; };
 		31969F1527688563004DA6E1 /* NewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewView.swift; sourceTree = "<group>"; };
 		31969F1B2768A2D0004DA6E1 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
-		31969F1D27698237004DA6E1 /* NewBookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookCollectionViewCell.swift; sourceTree = "<group>"; };
+		31969F1D27698237004DA6E1 /* BookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCollectionViewCell.swift; sourceTree = "<group>"; };
 		31969F1F2769A0BD004DA6E1 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		31969F212769C5C7004DA6E1 /* NewInteractorUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewInteractorUseCase.swift; sourceTree = "<group>"; };
+		31E782BE276B142F007AA9F2 /* SearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
+		31E782C0276B1438007AA9F2 /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
+		31E782C2276B1444007AA9F2 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		31E782C4276B144B007AA9F2 /* SearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
 		8460825E922582F5B59F2D82 /* Pods-MyBookshelfTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBookshelfTests.debug.xcconfig"; path = "Target Support Files/Pods-MyBookshelfTests/Pods-MyBookshelfTests.debug.xcconfig"; sourceTree = "<group>"; };
 		95C9FE8FCE83190FFF0C8065 /* Pods-MyBookshelfTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBookshelfTests.release.xcconfig"; path = "Target Support Files/Pods-MyBookshelfTests/Pods-MyBookshelfTests.release.xcconfig"; sourceTree = "<group>"; };
 		97DDA04BEF77AD5D92345B56 /* Pods-MyBookshelf-MyBookshelfUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyBookshelf-MyBookshelfUITests.debug.xcconfig"; path = "Target Support Files/Pods-MyBookshelf-MyBookshelfUITests/Pods-MyBookshelf-MyBookshelfUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -184,7 +192,7 @@
 				31969F1027688538004DA6E1 /* NewPresenter.swift */,
 				31969F1227688540004DA6E1 /* NewRouter.swift */,
 				31969F1527688563004DA6E1 /* NewView.swift */,
-				31969F1D27698237004DA6E1 /* NewBookCollectionViewCell.swift */,
+				31969F1D27698237004DA6E1 /* BookCollectionViewCell.swift */,
 			);
 			path = New;
 			sourceTree = "<group>";
@@ -209,6 +217,10 @@
 		31E782BD276B11B9007AA9F2 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				31E782BE276B142F007AA9F2 /* SearchInteractor.swift */,
+				31E782C2276B1444007AA9F2 /* SearchView.swift */,
+				31E782C0276B1438007AA9F2 /* SearchPresenter.swift */,
+				31E782C4276B144B007AA9F2 /* SearchRouter.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -475,13 +487,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				31969EE0276874C8004DA6E1 /* AppViewController.swift in Sources */,
-				31969F1E27698237004DA6E1 /* NewBookCollectionViewCell.swift in Sources */,
+				31969F1E27698237004DA6E1 /* BookCollectionViewCell.swift in Sources */,
 				31969EDC276874C8004DA6E1 /* AppDelegate.swift in Sources */,
 				31969F202769A0BD004DA6E1 /* APIService.swift in Sources */,
 				31969EDE276874C8004DA6E1 /* SceneDelegate.swift in Sources */,
 				31969F0F2768852A004DA6E1 /* NewInteractor.swift in Sources */,
+				31E782C5276B144B007AA9F2 /* SearchRouter.swift in Sources */,
+				31E782BF276B142F007AA9F2 /* SearchInteractor.swift in Sources */,
 				31969F1C2768A2D0004DA6E1 /* Book.swift in Sources */,
 				31969F1627688563004DA6E1 /* NewView.swift in Sources */,
+				31E782C1276B1438007AA9F2 /* SearchPresenter.swift in Sources */,
+				31E782C3276B1444007AA9F2 /* SearchView.swift in Sources */,
 				31969F1127688538004DA6E1 /* NewPresenter.swift in Sources */,
 				31969F222769C5C7004DA6E1 /* NewInteractorUseCase.swift in Sources */,
 				31969F1327688540004DA6E1 /* NewRouter.swift in Sources */,
