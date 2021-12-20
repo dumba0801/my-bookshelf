@@ -13,6 +13,7 @@ target 'MyBookshelf' do
     pod 'RxSwift', '6.2.0'
     pod 'RxCocoa', '6.2.0'
     pod 'Alamofire', '~> 5.5'
+    pod 'lottie-ios'
 
   target 'MyBookshelfTests' do
     inherit! :search_paths
