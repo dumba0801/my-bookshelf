@@ -12,6 +12,7 @@ import RxCocoa
 protocol NewPresenterType: AnyObject {
     var interactor: NewInteractorType? { get }
     func fetchNewBooks(subject: Observable<Void>)
+    func showDetail(isbn13: String)
     func onFetchedNewBooks(subject: Observable<[Book]>)
     func onFetchedError(subject: Observable<Error>)
 }
@@ -42,5 +43,11 @@ extension NewPresenter: NewPresenterType {
     }
         
     func onFetchedError(subject: Observable<Error>) {
+        
+    }
+    
+    func showDetail(isbn13: String) {
+        guard let router = router else { return }
+        router.showDetail(isbn13: isbn13)
     }
 }

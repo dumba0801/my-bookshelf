@@ -16,7 +16,7 @@ class BookCollectionViewCell: UICollectionViewCell {
     private lazy var imageView: UIImageView = {
        var imageView = UIImageView()
         imageView.backgroundColor = .gray
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     

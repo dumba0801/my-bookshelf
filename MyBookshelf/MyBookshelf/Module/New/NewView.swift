@@ -29,17 +29,22 @@ final class NewViewController: UIViewController {
     }()
     
     private var disposeBag = DisposeBag()
-
+    
     override func viewDidLoad() {
         guard let presenter = presenter else { return }
-
+        
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        navigationItem.title = "New"
-        tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 1)
+        navigationItem.title = Constant.navigationTitle
         addSubviews()
         configureLayout()
         presenter.fetchNewBooks(subject: Observable.just(()))
+        
+        collectionView.rx.modelSelected(Book.self)
+            .subscribe(onNext: { book in
+                guard let isbn13 = book.isbn13 else { return }
+                presenter.showDetail(isbn13: isbn13)
+            }).disposed(by: disposeBag)
     }
     
     private func addSubviews() {
@@ -49,7 +54,7 @@ final class NewViewController: UIViewController {
     private func configureLayout() {
         collectionView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(Metric.collectionViewLeadingTrailng)
         }
     }
 }
@@ -58,27 +63,42 @@ extension NewViewController: NewViewControllerType {
     func onFetchedNewBooks(subject: Observable<[Book]>) {
         subject
             .bind(to: collectionView.rx.items(cellIdentifier: Cell.identifier,
-                                                 cellType: Cell.self)) {
-            _, book, cell in
-
-            let subject = Observable<Book>.just(book)
-            cell.onBookData(subject: subject)
-    
-        }.disposed(by: disposeBag)
+                                              cellType: Cell.self)) {
+                _, book, cell in
+                
+                let subject = Observable<Book>.just(book)
+                cell.onBookData(subject: subject)
+                
+            }.disposed(by: disposeBag)
     }
 }
 
 extension NewViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.bounds.width * 0.4
-        let height = collectionView.bounds.height * 0.35
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = view.bounds.width * Metric.collectionViewWidth
+        let height = view.bounds.height * Metric.collectionViewHeight
         
         return CGSize(width: width, height: height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
         guard let cell = cell as? Cell else { return }
         cell.adjustLayout()
     }
 }
 
+extension NewViewController {
+    private enum Metric {
+        static let collectionViewLeadingTrailng = CGFloat(20)
+        static let collectionViewWidth = CGFloat(0.4)
+        static let collectionViewHeight = CGFloat(0.35)
+    }
+    
+    private enum Constant {
+        static let navigationTitle = "New"
+    }
+}

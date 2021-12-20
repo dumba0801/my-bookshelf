@@ -24,8 +24,8 @@ struct EndPoint {
                 return "new"
             case .search(let keyword, let page):
                 return "search/" + keyword + "/" + page
-            case .detail(let id):
-                return "books/" + id
+            case .detail(let isbn13):
+                return "books/" + isbn13
             }
         }
     }

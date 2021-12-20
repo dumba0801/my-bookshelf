@@ -9,11 +9,14 @@ import Foundation
 import UIKit
 
 protocol SearchRouterType: AnyObject {
-    
+    var navigation: UINavigationController? { get }
+
+    func createModule() -> SearchViewController
+    func showDetail(isbn13: String)
 }
 
 final class SearchRouter: SearchRouterType {
-    static var navigation: UINavigationController?
+    var navigation: UINavigationController?
     
     func createModule() -> SearchViewController {
         let view = SearchViewController()
@@ -23,9 +26,17 @@ final class SearchRouter: SearchRouterType {
         view.presenter = presenter
         presenter.interactor = interactor
         presenter.view = view
+        presenter.router = self
         interactor.presenter = presenter
         
         return view
     }
     
+    func showDetail(isbn13: String) {
+        guard let navigation = navigation else { return }
+        let router = DetailRouter()
+        router.navigation = navigation
+        navigation.pushViewController(router.createModule(isbn13: isbn13), animated: true)
+    }
+
 }

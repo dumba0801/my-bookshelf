@@ -9,9 +9,14 @@ import Foundation
 import RxSwift
 
 protocol SearchPresenterType: AnyObject {
-    func fetchSearchBook(subject: Observable<String>) 
+    var interactor: SearchInteractorType? { get }
+    var router: SearchRouterType? { get }
+    var view: SearchViewType? { get }
+    
+    func fetchSearchBook(subject: Observable<String?>) 
     func onFetchedSearchBook(subject: Observable<[Book]>)
     func onFetchedError(subject: Observable<Error>)
+    func showDetail(isbn13: String)
 }
 
 final class SearchPresenter: SearchPresenterType {
@@ -21,8 +26,10 @@ final class SearchPresenter: SearchPresenterType {
     
     private var disposeBag = DisposeBag()
     
-    func fetchSearchBook(subject: Observable<String>) {
-        subject.subscribe(onNext: { [weak self] keyword in
+    func fetchSearchBook(subject: Observable<String?>) {
+        subject
+            .compactMap{ $0 }
+            .subscribe(onNext: { [weak self] keyword in
             guard let self = self,
                   let interactor = self.interactor
             else { return }
@@ -40,6 +47,11 @@ final class SearchPresenter: SearchPresenterType {
     
     func onFetchedError(subject: Observable<Error>) {
         
+    }
+    
+    func showDetail(isbn13: String) {
+        guard let router = router else { return }
+        router.showDetail(isbn13: isbn13)
     }
 }
 

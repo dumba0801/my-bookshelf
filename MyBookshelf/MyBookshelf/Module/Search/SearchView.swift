@@ -11,6 +11,8 @@ import RxCocoa
 import SnapKit
 
 protocol SearchViewType: AnyObject {
+    var presenter: SearchPresenterType? { get }
+    
     func onFetchedSearchBooks(subject: Observable<[Book]>)
 }
 
@@ -34,12 +36,13 @@ final class SearchViewController: UIViewController {
     
     var presenter: SearchPresenterType?
     private var disposeBag = DisposeBag()
-        
+    
     override func viewDidLoad() {
+        guard let presenter = presenter else { return }
+        
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        navigationItem.title = "Search"
-        tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 2) // need refactor
+        navigationItem.title = Constant.navigationTitle
         addSubviews()
         configureLayout()
         
@@ -49,9 +52,15 @@ final class SearchViewController: UIViewController {
                       let presenter = self.presenter
                 else { return }
                 
-                let subject = Observable<String>.just(self.searchBar.text ?? "") // need refactor
+                let subject = Observable<String?>.just(self.searchBar.text)
                 presenter.fetchSearchBook(subject: subject)
                 self.searchBar.resignFirstResponder()
+            }).disposed(by: disposeBag)
+        
+        collectionView.rx.modelSelected(Book.self)
+            .subscribe(onNext: { book in
+                guard let isbn13 = book.isbn13 else { return }
+                presenter.showDetail(isbn13: isbn13)
             }).disposed(by: disposeBag)
     }
     
@@ -67,8 +76,8 @@ final class SearchViewController: UIViewController {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(searchBar.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(searchBar.snp.bottom).offset(Metric.collectionViewTop)
+            make.leading.trailing.equalToSuperview().inset(Metric.collectionViewLeadingTrailng)
             make.bottom.equalToSuperview()
         }
     }
@@ -93,14 +102,29 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.bounds.width * 0.4
-        let height = collectionView.bounds.height * 0.35
+        let width = view.bounds.width * Metric.collectionViewWidth
+        let height = view.bounds.height * Metric.collectionViewHeight
         
         return CGSize(width: width, height: height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
         guard let cell = cell as? Cell else { return }
         cell.adjustLayout()
     }    
+}
+
+extension SearchViewController {
+    private enum Metric {
+        static let collectionViewTop = CGFloat(10)
+        static let collectionViewLeadingTrailng = CGFloat(20)
+        static let collectionViewWidth = CGFloat(0.4)
+        static let collectionViewHeight = CGFloat(0.35)
+    }
+    
+    private enum Constant {
+        static let navigationTitle = "Search"
+    }
 }

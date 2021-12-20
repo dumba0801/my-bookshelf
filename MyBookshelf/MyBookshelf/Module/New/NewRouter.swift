@@ -8,6 +8,8 @@
 import UIKit
 
 protocol NewRouterType: AnyObject {
+    var navigation: UINavigationController? { get }
+    func showDetail(isbn13: String)
 }
 
 final class NewRouter: NewRouterType {
@@ -21,15 +23,16 @@ final class NewRouter: NewRouterType {
         interactor.presenter = presenter
         presenter.interactor = interactor
         presenter.view = view
+        presenter.router = self
         view.presenter = presenter
         
         return view
     }
     
-    func pushDetail() {
+    func showDetail(isbn13: String) {
         guard let navigation = navigation else { return }
         let router = DetailRouter()
         router.navigation = navigation
-        navigation.pushViewController(router.createModule(), animated: true)
+        navigation.pushViewController(router.createModule(isbn13: isbn13), animated: true)
     }
 }
