@@ -36,17 +36,20 @@ extension NewInteractor: NewInteractorType {
                 let subject = Observable<Error>.just(error)
                 presenter.onFetchedError(subject: subject)
             }.disposed(by: disposeBag)
+
     }
     
     private func requestNewBooks() -> Single<[Book]> {
         let endpoint = EndPoint(path: .new)
         let url = endpoint.url()
-        return service.request(convertible: url!) //need refactor
+        return service.request(convertible: url)
             .map { data in
                 let json = JSON(data)
                 let object = json["books"].arrayObject
-                let books = Mapper<Book>().mapArray(JSONObject: object)
-                return books ?? [] // need refactor
+                guard let books = Mapper<Book>().mapArray(JSONObject: object) else {
+                    throw RxError.noElements
+                }
+                return books
             }
     }
 }

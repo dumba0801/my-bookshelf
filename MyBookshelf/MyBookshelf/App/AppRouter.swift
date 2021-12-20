@@ -9,17 +9,19 @@ import UIKit
 
 final class AppRouter {
     static func create() -> UIViewController {
-        let newVC = NewRouter().createModule()
+        let newRouter = NewRouter()
+        let newVC = newRouter.createModule()
         let newNavigation = UINavigationController(rootViewController: newVC)
         newNavigation.navigationBar.prefersLargeTitles = true
+        newRouter.navigation = newNavigation
         
-        let searchVC = SearchRouter().createModule()
+        let searchRouter = SearchRouter()
+        let searchVC = searchRouter.createModule()
         let searchNavigation = UINavigationController(rootViewController: searchVC)
         searchNavigation.navigationBar.prefersLargeTitles = true
+        searchRouter.navigation = searchNavigation
         
-        let tabBarVC = UITabBarController()
-        tabBarVC.viewControllers = [newNavigation, searchNavigation]
-
+        let tabBarVC = BaseTabBarController(new: newNavigation, search: searchNavigation)
         return tabBarVC
     }
 }

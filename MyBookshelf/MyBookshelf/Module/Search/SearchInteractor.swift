@@ -12,13 +12,15 @@ import SwiftyJSON
 import ObjectMapper
 
 protocol SearchInteractorType: AnyObject {
+    var presenter: SearchPresenterType? { get }
+    var service: APIService { get }
     func fetchSearchBooks(keyword: String)
 }
 
 final class SearchInteractor: SearchInteractorType {
     
     weak var presenter: SearchPresenterType?
-    private let service = APIService.shared
+    let service = APIService.shared
     private var disposeBag = DisposeBag()
     
     func fetchSearchBooks(keyword: String) {
@@ -40,7 +42,7 @@ final class SearchInteractor: SearchInteractorType {
             .subscribe { [weak self] (page, books) in
                 guard let self = self,
                       !books.isEmpty else { return }
-                let intPage = Int(page) ?? 0   // .... ?
+                let intPage = Int(page) ?? 0
                 let nextPage = String(intPage + 1)
                 var value = subject.value
                 self.pagination(subject: subject, keyword: keyword, page: nextPage)
@@ -53,7 +55,7 @@ final class SearchInteractor: SearchInteractorType {
     private func requestSearchBooks(keyword: String, page: String) -> Single<(String, [Book])> {
         let endpoint = EndPoint(path: .search(keyword, page))
         let url = endpoint.url()
-        return service.request(convertible: url!)
+        return service.request(convertible: url)
             .map { data in
                 let json = JSON(data)
                 let object = json["books"].arrayObject
@@ -66,8 +68,3 @@ final class SearchInteractor: SearchInteractorType {
             }
     }
 }
-
-enum DumbaError: Error {
-    case decodingError
-}
-

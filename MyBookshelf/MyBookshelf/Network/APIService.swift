@@ -16,9 +16,15 @@ final class APIService {
     
     private init() {}
     
-    func request(convertible: URLConvertible) -> Single<Data> {
+    func request(convertible: URLConvertible?) -> Single<Data> {
         return Observable<Data>.create() { subject in
+            guard let convertible = convertible else {
+                subject.onError(AFError.invalidURL(url: convertible.debugDescription))
+                return Disposables.create()
+            }
+
             AF.request(convertible)
+                .validate(statusCode: 200..<300)
                 .responseData { response in
                     switch response.result {
                     case .success(let data):

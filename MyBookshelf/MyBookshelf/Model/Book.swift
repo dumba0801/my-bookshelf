@@ -8,16 +8,16 @@
 import Foundation
 import ObjectMapper
 
-struct Book: Mappable {
-    var title: String?
-    var subtitle: String?
-    var isbn13: String?
-    var price: String?
-    var image: String?
+struct Book {
+    var title: String!
+    var subtitle: String!
+    var isbn13: String!
+    var price: String!
+    var image: String!
+}
 
-    init?(map: Map) {
-        
-    }
+extension Book: Mappable {
+    init?(map: Map) { }
     
     mutating func mapping(map: Map) {
         title <- map["title"]

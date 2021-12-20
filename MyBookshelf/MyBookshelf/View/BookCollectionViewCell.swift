@@ -15,7 +15,6 @@ class BookCollectionViewCell: UICollectionViewCell {
     
     private lazy var imageView: UIImageView = {
        var imageView = UIImageView()
-        imageView.backgroundColor = .gray
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -62,13 +61,12 @@ class BookCollectionViewCell: UICollectionViewCell {
     }
     private func configureLayout() {
         imageView.snp.makeConstraints { make in
-            make.top.centerX.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.6)
+            make.top.equalToSuperview().inset(-Metric.imageViewTop)
+            make.centerX.width.height.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(Metric.titleLabelTop)
+            make.top.equalTo(imageView.snp.bottom).offset(-Metric.titleLabelTop)
             make.leading.trailing.equalToSuperview()
         }
         
@@ -130,7 +128,8 @@ class BookCollectionViewCell: UICollectionViewCell {
 
 extension BookCollectionViewCell {
     private enum Metric {
-        static let titleLabelTop = CGFloat(2)
+        static let imageViewTop = CGFloat(20)
+        static let titleLabelTop = CGFloat(50)
         static let subtitleTop = CGFloat(2)
         static let priceTop = CGFloat(2)
     }
