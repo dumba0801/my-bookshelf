@@ -43,7 +43,8 @@ extension NewPresenter: NewPresenterType {
     }
         
     func onFetchedError(subject: Observable<Error>) {
-        
+        guard let view = view else { return }
+        view.onFetchedError(subject: subject)
     }
     
     func showDetail(isbn13: String) {
