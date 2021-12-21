@@ -10,7 +10,6 @@ import RxSwift
 import RxRelay
 import SwiftyJSON
 import ObjectMapper
-
 protocol SearchInteractorType: AnyObject {
     var presenter: SearchPresenterType? { get }
     var service: APIService { get }
@@ -25,31 +24,46 @@ final class SearchInteractor: SearchInteractorType {
     
     func fetchSearchBooks(keyword: String) {
         guard let presenter = presenter else { return }
-        let subject = BehaviorRelay<[(String, [Book])]>(value: [])
+        let subject = BehaviorSubject<[(String, [Book])]>(value: [])
         
         pagination(subject: subject, keyword: keyword)
         
-        let mapSubject = subject.map { $0.sorted{ $0.0 < $1.0 }.reduce([]) { $0 + $1.1 } }
+        let mapSubject = subject.map{ $0.sorted{ $0.0 < $1.0 }.reduce([]) { $0 + $1.1 } }
         
-        presenter.onFetchedSearchBook(subject: mapSubject)
+        mapSubject
+            .subscribe { books in
+            let subject = Observable<[Book]>.just(books)
+            presenter.onFetchedSearchBook(subject: subject)
+        } onError: { error in
+            let subject = Observable<Error>.just(error)
+            presenter.onFetchedError(subject: subject)
+        }.disposed(by: disposeBag)
     }
     
-    private func pagination(subject: BehaviorRelay<[(String, [Book])]>,
+    private func pagination(subject: BehaviorSubject<[(String, [Book])]>,
                     keyword: String,
                     page: String = "1"
     ){
         requestSearchBooks(keyword: keyword, page: page)
             .subscribe { [weak self] (page, books) in
                 guard let self = self,
-                      !books.isEmpty else { return }
-                let intPage = Int(page) ?? 0
-                let nextPage = String(intPage + 1)
-                var value = subject.value
-                self.pagination(subject: subject, keyword: keyword, page: nextPage)
-                value.append((page, books))
-                subject.accept(value)
+                      let page = Int(page),
+                      !books.isEmpty
+                else { return }
+                
+                let nextPage = String(page + 1)
+                
+                do {
+                    var value = try subject.value()
+                    self.pagination(subject: subject, keyword: keyword, page: nextPage)
+                    value.append((nextPage, books))
+                    subject.onNext(value)
+                } catch let error {
+                    subject.onError(error)
+                }
+            }  onFailure: { error in
+                subject.onError(error)
             }.disposed(by: disposeBag)
-        
     }
     
     private func requestSearchBooks(keyword: String, page: String) -> Single<(String, [Book])> {
