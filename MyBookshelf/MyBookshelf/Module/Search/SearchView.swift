@@ -14,6 +14,7 @@ protocol SearchViewType: AnyObject {
     var presenter: SearchPresenterType? { get }
     
     func onFetchedSearchBooks(subject: Observable<[Book]>)
+    func onFetchedError(subject: Observable<Error>) 
 }
 
 final class SearchViewController: UIViewController {
@@ -34,7 +35,16 @@ final class SearchViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var errorView: ErrorView = {
+        var view = ErrorView()
+        view.isHidden = true
+        return view
+    }()
+    
     var presenter: SearchPresenterType?
+    
+    private var errorFlag = false
+
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -62,11 +72,24 @@ final class SearchViewController: UIViewController {
                 guard let isbn13 = book.isbn13 else { return }
                 presenter.showDetail(isbn13: isbn13)
             }).disposed(by: disposeBag)
+        
+        errorView.rx.retry
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .bind { [weak self] _ in
+                guard
+                    let self = self,
+                    let presenter = self.presenter
+                else { return }
+                
+                presenter.fetchSearchBook(subject: Observable.just(self.searchBar.text))
+                
+            }.disposed(by: disposeBag)
     }
     
     private func addSubviews() {
         view.addSubview(searchBar)
         view.addSubview(collectionView)
+        view.addSubview(errorView)
     }
     
     private func configureLayout() {
@@ -80,21 +103,39 @@ final class SearchViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(Metric.collectionViewLeadingTrailng)
             make.bottom.equalToSuperview()
         }
+        
+        errorView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 }
 
 extension SearchViewController: SearchViewType {
     func onFetchedSearchBooks(subject: Observable<[Book]>) {
+        switchView(error: false)
         collectionView.dataSource = nil
         subject
             .bind(to: collectionView.rx.items(cellIdentifier: Cell.identifier,
-                                                 cellType: Cell.self)) {
-            _, book, cell in
-
-            let subject = Observable<Book>.just(book)
-            cell.onBookData(subject: subject)
+                                              cellType: Cell.self)) {
+                _, book, cell in
+                
+                let subject = Observable<Book>.just(book)
+                cell.onBookData(subject: subject)
+                
+            }.disposed(by: disposeBag)
+    }
     
-        }.disposed(by: disposeBag)
+    func onFetchedError(subject: Observable<Error>) {
+        switchView(error: true)
+    }
+    
+    private func switchView(error: Bool) {
+        guard errorFlag != error else { return }
+        
+        errorView.play = error
+        errorView.isHidden = !error
+        collectionView.isHidden = error
+        errorFlag = error
     }
 }
 
@@ -113,7 +154,7 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
                         forItemAt indexPath: IndexPath) {
         guard let cell = cell as? Cell else { return }
         cell.adjustLayout()
-    }    
+    }
 }
 
 extension SearchViewController {

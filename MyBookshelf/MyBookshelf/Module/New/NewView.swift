@@ -13,12 +13,11 @@ import SnapKit
 protocol NewViewControllerType: AnyObject {
     var presenter: NewPresenterType? { get }
     func onFetchedNewBooks(subject: Observable<[Book]>)
+    func onFetchedError(subject: Observable<Error>)
 }
 
 final class NewViewController: UIViewController {
     typealias Cell = BookCollectionViewCell
-    
-    var presenter: NewPresenterType?
     
     private lazy var collectionView: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
@@ -28,16 +27,28 @@ final class NewViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var errorView: ErrorView = {
+        var view = ErrorView()
+        view.isHidden = true
+        return view
+    }()
+    
+    var presenter: NewPresenterType?
+    
+    private var errorFlag = false
+    
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         guard let presenter = presenter else { return }
         
         super.viewDidLoad()
+        
         view.backgroundColor = .systemBackground
         navigationItem.title = Constant.navigationTitle
         addSubviews()
         configureLayout()
+        
         presenter.fetchNewBooks(subject: Observable.just(()))
         
         collectionView.rx.modelSelected(Book.self)
@@ -45,10 +56,23 @@ final class NewViewController: UIViewController {
                 guard let isbn13 = book.isbn13 else { return }
                 presenter.showDetail(isbn13: isbn13)
             }).disposed(by: disposeBag)
+        
+        errorView.rx.retry
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .bind { [weak self] _ in
+            guard
+                let self = self,
+                let presenter = self.presenter
+            else { return }
+            
+            presenter.fetchNewBooks(subject: Observable.just(()))
+            
+        }.disposed(by: disposeBag)
     }
     
     private func addSubviews() {
         view.addSubview(collectionView)
+        view.addSubview(errorView)
     }
     
     private func configureLayout() {
@@ -56,11 +80,17 @@ final class NewViewController: UIViewController {
             make.top.bottom.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(Metric.collectionViewLeadingTrailng)
         }
+        
+        errorView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 }
 
 extension NewViewController: NewViewControllerType {
     func onFetchedNewBooks(subject: Observable<[Book]>) {
+        switchView(error: false)
+        
         subject
             .bind(to: collectionView.rx.items(cellIdentifier: Cell.identifier,
                                               cellType: Cell.self)) {
@@ -70,6 +100,19 @@ extension NewViewController: NewViewControllerType {
                 cell.onBookData(subject: subject)
                 
             }.disposed(by: disposeBag)
+    }
+    
+    func onFetchedError(subject: Observable<Error>) {
+        switchView(error: true)
+    }
+    
+    private func switchView(error: Bool) {
+        guard errorFlag != error else { return }
+        
+        errorView.play = error
+        errorView.isHidden = !error
+        collectionView.isHidden = error
+        errorFlag = error
     }
 }
 

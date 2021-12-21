@@ -9,8 +9,12 @@
 /* Begin PBXBuildFile section */
 		070A0AA74BD8D501283141A2 /* Pods_MyBookshelf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C0D07E1B5F3EA3EA2B059B5 /* Pods_MyBookshelf.framework */; };
 		0C33F39763E9927278B7A8D3 /* Pods_MyBookshelfTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15165FCDA66DAB264B92172 /* Pods_MyBookshelfTests.framework */; };
+		3143BA992771684A00A96850 /* RetryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BA982771684A00A96850 /* RetryButton.swift */; };
 		317848B227705AFC003C1D9E /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B127705AFC003C1D9E /* BaseTabBarController.swift */; };
 		317848B427706DEF003C1D9E /* DetailBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B327706DEF003C1D9E /* DetailBook.swift */; };
+		317848B6277075ED003C1D9E /* ErrorView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B5277075ED003C1D9E /* ErrorView.swift.swift */; };
+		317848B827707989003C1D9E /* disconnected.json in Resources */ = {isa = PBXBuildFile; fileRef = 317848B727707989003C1D9E /* disconnected.json */; };
+		317848BA27709A11003C1D9E /* ErrorView + Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B927709A11003C1D9E /* ErrorView + Rx.swift */; };
 		31969EDC276874C8004DA6E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969EDB276874C8004DA6E1 /* AppDelegate.swift */; };
 		31969EDE276874C8004DA6E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969EDD276874C8004DA6E1 /* SceneDelegate.swift */; };
 		31969EE5276874C9004DA6E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31969EE4276874C9004DA6E1 /* Assets.xcassets */; };
@@ -62,8 +66,12 @@
 /* Begin PBXFileReference section */
 		1C0D07E1B5F3EA3EA2B059B5 /* Pods_MyBookshelf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBookshelf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A6937D0C98089DA400260BD /* Pods_MyBookshelf_MyBookshelfUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBookshelf_MyBookshelfUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3143BA982771684A00A96850 /* RetryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryButton.swift; sourceTree = "<group>"; };
 		317848B127705AFC003C1D9E /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		317848B327706DEF003C1D9E /* DetailBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBook.swift; sourceTree = "<group>"; };
+		317848B5277075ED003C1D9E /* ErrorView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift.swift; sourceTree = "<group>"; };
+		317848B727707989003C1D9E /* disconnected.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = disconnected.json; path = ../../../../../channel_talk_caller/ChannelTalkCaller/ChannelTalkCaller/Application/Assets/disconnected.json; sourceTree = "<group>"; };
+		317848B927709A11003C1D9E /* ErrorView + Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ErrorView + Rx.swift"; sourceTree = "<group>"; };
 		31969ED8276874C8004DA6E1 /* MyBookshelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBookshelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31969EDB276874C8004DA6E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31969EDD276874C8004DA6E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -200,6 +208,7 @@
 		31969F0C2768808F004DA6E1 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				317848B727707989003C1D9E /* disconnected.json */,
 				31969EE4276874C9004DA6E1 /* Assets.xcassets */,
 				31969EE6276874C9004DA6E1 /* LaunchScreen.storyboard */,
 				31969EE9276874C9004DA6E1 /* Info.plist */,
@@ -242,6 +251,8 @@
 				317848B127705AFC003C1D9E /* BaseTabBarController.swift */,
 				31969F1D27698237004DA6E1 /* BookCollectionViewCell.swift */,
 				319BE192276C8BE6003DD11F /* DetailScrollView.swift */,
+				317848B5277075ED003C1D9E /* ErrorView.swift.swift */,
+				3143BA982771684A00A96850 /* RetryButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -260,6 +271,8 @@
 			isa = PBXGroup;
 			children = (
 				319BE182276C5EB1003DD11F /* String + Exentsion.swift */,
+				319B94BD276F0D2200F2BFB5 /* DetailScrollView + Rx.swift */,
+				317848B927709A11003C1D9E /* ErrorView + Rx.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -268,7 +281,6 @@
 			isa = PBXGroup;
 			children = (
 				319BE180276C5E85003DD11F /* ImageCacheManager.swift */,
-				319B94BD276F0D2200F2BFB5 /* DetailScrollView + Rx.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -428,6 +440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				31969EE8276874C9004DA6E1 /* LaunchScreen.storyboard in Resources */,
+				317848B827707989003C1D9E /* disconnected.json in Resources */,
 				31969EE5276874C9004DA6E1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -562,6 +575,7 @@
 				319BE188276C681F003DD11F /* DetailRouter.swift in Sources */,
 				31969F202769A0BD004DA6E1 /* APIService.swift in Sources */,
 				319BE191276C7841003DD11F /* DetailView.swift in Sources */,
+				317848B6277075ED003C1D9E /* ErrorView.swift.swift in Sources */,
 				319BE18E276C782F003DD11F /* DetailPresenter.swift in Sources */,
 				319BE181276C5E85003DD11F /* ImageCacheManager.swift in Sources */,
 				31969EDE276874C8004DA6E1 /* SceneDelegate.swift in Sources */,
@@ -569,6 +583,7 @@
 				31969F0F2768852A004DA6E1 /* NewInteractor.swift in Sources */,
 				31E782C5276B144B007AA9F2 /* SearchRouter.swift in Sources */,
 				31E782BF276B142F007AA9F2 /* SearchInteractor.swift in Sources */,
+				3143BA992771684A00A96850 /* RetryButton.swift in Sources */,
 				319BE18A276C6828003DD11F /* DetailInteractor.swift in Sources */,
 				317848B427706DEF003C1D9E /* DetailBook.swift in Sources */,
 				319BE18C276C71B9003DD11F /* EndPoint.swift in Sources */,
@@ -576,6 +591,7 @@
 				317848B227705AFC003C1D9E /* BaseTabBarController.swift in Sources */,
 				31969F1C2768A2D0004DA6E1 /* Book.swift in Sources */,
 				31969F1627688563004DA6E1 /* NewView.swift in Sources */,
+				317848BA27709A11003C1D9E /* ErrorView + Rx.swift in Sources */,
 				31E782C1276B1438007AA9F2 /* SearchPresenter.swift in Sources */,
 				31E782C3276B1444007AA9F2 /* SearchView.swift in Sources */,
 				319BE185276C6309003DD11F /* AppRouter.swift in Sources */,
