@@ -43,7 +43,7 @@ final class SearchInteractor: SearchInteractorType {
     private func pagination(subject: BehaviorSubject<[(String, [Book])]>,
                     keyword: String,
                     page: String = "1"
-    ){
+    ) {
         requestSearchBooks(keyword: keyword, page: page)
             .subscribe { [weak self] (page, books) in
                 guard let self = self,

@@ -6,11 +6,16 @@
 //
 
 import RxSwift
+import RxCocoa
 
 extension Reactive where Base: DetailScrollView {
     var book: Binder<DetailBook?> {
         return Binder(self.base) { view, book in
             view.book = book
         }
+    }
+    
+    var addMemo: ControlEvent<Void> {
+        base.addMemoButton.rx.tap
     }
 }

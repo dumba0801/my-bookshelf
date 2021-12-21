@@ -12,6 +12,7 @@ protocol DetailPresenterType: AnyObject {
     func fetchDetailBook(subject: Observable<Void>)
     func onFetchedDetailBook(subject: Observable<DetailBook>)
     func onFetchedError(subject: Observable<Error>)
+    func showMemoModal()
 }
 
 final class DetailPresenter {
@@ -46,6 +47,14 @@ extension DetailPresenter: DetailPresenterType {
     }
     
     func onFetchedError(subject: Observable<Error>) {
+        guard let view = view else { return }
         
+        view.onFetchedError(subject: subject)
+    }
+    
+    func showMemoModal() {
+        guard let router = router else { return }
+        
+        router.showMemoModal()
     }
 }

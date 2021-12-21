@@ -74,9 +74,19 @@ public final class DetailScrollView: UIScrollView {
         return label
     }()
     
+    lazy var addMemoButton: AddMemoButton = {
+        let button = AddMemoButton()
+        button.isHidden = true
+        return button
+    }()
+    
     var book: DetailBook? {
+        willSet {
+            addMemoButton.isHidden = true
+        }
         didSet {
             changedBook()
+            addMemoButton.isHidden = false
         }
     }
     
@@ -104,6 +114,7 @@ public final class DetailScrollView: UIScrollView {
         contentView.addSubview(pagesLabel)
         contentView.addSubview(yearLabel)
         contentView.addSubview(descLabel)
+        contentView.addSubview(addMemoButton)
     }
     
     private func configureLayout() {
@@ -161,7 +172,14 @@ public final class DetailScrollView: UIScrollView {
         
         descLabel.snp.makeConstraints { make in
             make.top.equalTo(yearLabel.snp.bottom).offset(Metric.defaultTop)
-            make.leading.trailing.bottom.equalToSuperview().inset(Metric.defualtLeadingTrailng)
+            make.leading.trailing.equalToSuperview().inset(Metric.defualtLeadingTrailng)
+        }
+        
+        addMemoButton.snp.makeConstraints { make in
+            make.top.equalTo(descLabel.snp.bottom).offset(Metric.defaultTop)
+            make.width.equalTo(Metric.addMemoButtonWidth)
+            make.height.equalTo(Metric.addMemoButtonHeight)
+            make.centerX.bottom.equalToSuperview()
         }
     }
     
@@ -194,6 +212,8 @@ extension DetailScrollView {
         static let subtitleLabelTop = CGFloat(0)
         static let defualtLeadingTrailng = CGFloat(10)
         static let defaultTop = CGFloat(20)
+        static let addMemoButtonWidth = CGFloat(120)
+        static let addMemoButtonHeight = CGFloat(40)
     }
     
     private enum Font {
