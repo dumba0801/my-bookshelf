@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxRealm
 
 final class ImageCacheManager {
     static private var cache = NSCache<NSString, UIImage>()

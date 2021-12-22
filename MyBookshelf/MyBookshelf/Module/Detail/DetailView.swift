@@ -13,6 +13,7 @@ protocol DetailViewControllerType: AnyObject {
     var presenter: DetailPresenterType? { get }
     
     func onFetchdedDeatilBook(subject: Observable<DetailBook>)
+    func onFetchedMemos(subject: Observable<[Memo]>)
     func onFetchedError(subject: Observable<Error>)
 }
 
@@ -29,45 +30,79 @@ final class DetailViewController: UIViewController {
         return view
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        return view
+    }()
+    
     var presenter: DetailPresenterType?
     private var errorFlag = false
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
-        guard let presenter = presenter else { return }
         
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         tabBarController?.tabBar.isHidden = true
-        presenter.fetchDetailBook(subject: Observable.just(()))
         addSubviews()
         confiureLayout()
+
+        let viewDidLoad = Observable.just(())
         
-        errorView.rx.retry
+        let retry = errorView.rx.retry
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .bind { [weak self] _ in
+
+        Observable.of(viewDidLoad, retry).merge()
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.activityIndicator.startAnimating()
+            }).bind { [weak self] _ in
                 guard
                     let self = self,
                     let presenter = self.presenter
-                else { return }
+                else {
+                    return
+                }
                 
                 presenter.fetchDetailBook(subject: Observable.just(()))
                 
             }.disposed(by: disposeBag)
         
+        
+        guard let presenter = presenter else {
+            return
+        }
+        
+        presenter.fetchMemos(subject: Observable.just(()))
+        
+        scrollView.rx.addMemo.bind { [weak self] _ in
+            guard let self = self,
+                  let presenter = self.presenter
+            else {
+                return
+            }
+            
+            presenter.showMemoModal()
+        }.disposed(by: disposeBag)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         tabBarController?.tabBar.isHidden = false
     }
+
     
     private func addSubviews() {
         view.addSubview(scrollView)
         view.addSubview(errorView)
+        view.addSubview(activityIndicator)
     }
     
     private func confiureLayout() {
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
         scrollView.snp.makeConstraints { make in
             make.centerX.width.edges.equalToSuperview()
         }
@@ -91,11 +126,27 @@ extension DetailViewController: DetailViewControllerType {
     func onFetchdedDeatilBook(subject: Observable<DetailBook>) {
         switchView(error: false)
         
-        subject.bind(to: scrollView.rx.book)
+        subject
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.activityIndicator.stopAnimating()
+            })
+            .bind(to: scrollView.rx.book)
             .disposed(by: disposeBag)
     }
     
     func onFetchedError(subject: Observable<Error>) {
         switchView(error: true)
+        
+        subject.bind { [weak self] _ in
+            guard let self = self else { return }
+            self.activityIndicator.stopAnimating()
+        }.disposed(by: disposeBag)
+    }
+    
+    func onFetchedMemos(subject: Observable<[Memo]>) {
+        subject
+            .bind(to: scrollView.rx.memos)
+            .disposed(by: disposeBag)
     }
 }

@@ -11,6 +11,7 @@ protocol DetailRouterType: AnyObject {
     var navigation: UINavigationController? { get }
     
     func createModule(isbn13: String) -> UIViewController
+    func showMemoModal(isbn13: String)
 }
 
 final class DetailRouter: DetailRouterType {
@@ -29,5 +30,13 @@ final class DetailRouter: DetailRouterType {
         
         return view
     }
+    
+    func showMemoModal(isbn13: String) {
+        guard let navigation = navigation else { return }
+        let router = MemoRouter()
+        let memoVC = router.createModule(isbn13: isbn13)
+        let memoNav = UINavigationController(rootViewController: memoVC)
+        router.navigation = memoNav
+        navigation.present(memoNav, animated: true, completion: nil)
+    }
 }
-

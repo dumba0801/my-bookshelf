@@ -8,8 +8,11 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Alamofire
+import SnapKit
 
 public final class DetailScrollView: UIScrollView {
+    typealias Cell = MemoTableViewCell
     
     private lazy var contentView: UIView = {
         var view = UIView()
@@ -74,10 +77,50 @@ public final class DetailScrollView: UIScrollView {
         return label
     }()
     
+    private lazy var memoHeaderLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Your Memo"
+        label.font = Font.memoHeaderLabel
+        return label
+    }()
+    
+    private lazy var memoTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(Cell.self, forCellReuseIdentifier: Cell.identifier)
+        tableView.separatorInset.left = Constant.tableViewLeftSeparatorInset
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = Constant.tableViewEstimatedHeight
+        return tableView
+    }()
+    
+    lazy var addMemoButton: AddMemoButton = {
+        let button = AddMemoButton()
+        button.isHidden = true
+        return button
+    }()
+    
+    private var tableViewHeight: Constraint?
+    
     var book: DetailBook? {
+        willSet {
+            addMemoButton.isHidden = true
+        }
         didSet {
             changedBook()
+            addMemoButton.isHidden = false
         }
+    }
+    
+    var memos: [Memo]? {
+        didSet {
+            onMemos()
+        }
+    }
+    
+    var memoDeleted: ControlEvent<Memo> {
+        memoTableView.rx.modelDeleted(Memo.self)
     }
     
     private var disposeBag = DisposeBag()
@@ -86,6 +129,18 @@ public final class DetailScrollView: UIScrollView {
         super.init(frame: frame)
         addSubviews()
         configureLayout()
+        
+        self.memoTableView
+            .rx
+            .observeWeakly(CGSize.self, "contentSize")
+            .observe(on: MainScheduler.asyncInstance)
+            .compactMap { $0?.height }
+            .distinctUntilChanged()
+            .asDriver{ _ in .never() }
+            .drive { [weak self] height in
+                guard let self = self else { return }
+                self.tableViewHeight?.update(offset: height)
+            }.disposed(by: self.disposeBag)
     }
     
     required init?(coder: NSCoder) {
@@ -104,6 +159,9 @@ public final class DetailScrollView: UIScrollView {
         contentView.addSubview(pagesLabel)
         contentView.addSubview(yearLabel)
         contentView.addSubview(descLabel)
+        contentView.addSubview(memoHeaderLabel)
+        contentView.addSubview(memoTableView)
+        contentView.addSubview(addMemoButton)
     }
     
     private func configureLayout() {
@@ -161,7 +219,25 @@ public final class DetailScrollView: UIScrollView {
         
         descLabel.snp.makeConstraints { make in
             make.top.equalTo(yearLabel.snp.bottom).offset(Metric.defaultTop)
-            make.leading.trailing.bottom.equalToSuperview().inset(Metric.defualtLeadingTrailng)
+            make.leading.trailing.equalToSuperview().inset(Metric.defualtLeadingTrailng)
+        }
+        
+        memoHeaderLabel.snp.makeConstraints { make in
+            make.top.equalTo(descLabel.snp.bottom).offset(40)
+            make.leading.trailing.equalToSuperview().inset(Metric.defualtLeadingTrailng)
+        }
+        
+        memoTableView.snp.makeConstraints { make in
+            make.top.equalTo(memoHeaderLabel.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(Metric.defualtLeadingTrailng)
+            tableViewHeight = make.height.equalTo(100).constraint
+        }
+        
+        addMemoButton.snp.makeConstraints { make in
+            make.top.equalTo(memoTableView.snp.bottom).offset(Metric.defaultTop)
+            make.width.equalTo(Metric.addMemoButtonWidth)
+            make.height.equalTo(Metric.addMemoButtonHeight)
+            make.centerX.bottom.equalToSuperview()
         }
     }
     
@@ -183,6 +259,41 @@ public final class DetailScrollView: UIScrollView {
         self.yearLabel.text = "Year of publication: " + book.year
         self.descLabel.text = book.desc
     }
+    
+    func onMemos() {
+        self.memoTableView.reloadData()
+    }
+}
+
+extension DetailScrollView: UITableViewDataSource {
+    public func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let memos = memos else { return 0 }
+        return memos.count
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard
+            let cell = tableView.dequeueReusableCell(withIdentifier: Cell.identifier, for: indexPath) as? Cell,
+            let memos = memos,
+            indexPath.row < memos.count
+        else {
+            return UITableViewCell()
+        }
+        
+        let memo = memos[indexPath.row]
+        cell.onData(subject: Observable.just(memo))
+        
+        return cell
+        
+    }
+}
+
+extension DetailScrollView: UITableViewDelegate {
+    
 }
 
 extension DetailScrollView {
@@ -194,17 +305,23 @@ extension DetailScrollView {
         static let subtitleLabelTop = CGFloat(0)
         static let defualtLeadingTrailng = CGFloat(10)
         static let defaultTop = CGFloat(20)
+        static let addMemoButtonWidth = CGFloat(120)
+        static let addMemoButtonHeight = CGFloat(40)
     }
     
     private enum Font {
         static let titleLabel = UIFont.boldSystemFont(ofSize: 20)
         static let subtitleLabel = UIFont.systemFont(ofSize: 16)
+        static let memoHeaderLabel = UIFont.boldSystemFont(ofSize: 26)
     }
+    
     
     private enum Constant {
         static let titleLabelNumberOfLines = 2
         static let subtittleLabelNumberOfLines = 2
         static let subtitleLabelColor = UIColor.gray
         static let descLabelNumerOfLines = 0
+        static let tableViewEstimatedHeight = CGFloat(40)
+        static let tableViewLeftSeparatorInset = CGFloat(0)
     }
 }

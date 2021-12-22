@@ -10,6 +10,13 @@
 		070A0AA74BD8D501283141A2 /* Pods_MyBookshelf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C0D07E1B5F3EA3EA2B059B5 /* Pods_MyBookshelf.framework */; };
 		0C33F39763E9927278B7A8D3 /* Pods_MyBookshelfTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15165FCDA66DAB264B92172 /* Pods_MyBookshelfTests.framework */; };
 		3143BA992771684A00A96850 /* RetryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BA982771684A00A96850 /* RetryButton.swift */; };
+		3143BA9B277171DD00A96850 /* AddMemoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BA9A277171DD00A96850 /* AddMemoButton.swift */; };
+		3143BAA02771920000A96850 /* MemoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BA9F2771920000A96850 /* MemoRouter.swift */; };
+		3143BAA22771920900A96850 /* MemoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAA12771920900A96850 /* MemoPresenter.swift */; };
+		3143BAA42771921100A96850 /* MemoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAA32771921100A96850 /* MemoInteractor.swift */; };
+		3143BAA62771923D00A96850 /* MemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAA52771923D00A96850 /* MemoView.swift */; };
+		3143BAA82771A32100A96850 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAA72771A32100A96850 /* Memo.swift */; };
+		3143BAAA2771A51700A96850 /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAA92771A51700A96850 /* MemoTableViewCell.swift */; };
 		317848B227705AFC003C1D9E /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B127705AFC003C1D9E /* BaseTabBarController.swift */; };
 		317848B427706DEF003C1D9E /* DetailBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B327706DEF003C1D9E /* DetailBook.swift */; };
 		317848B6277075ED003C1D9E /* ErrorView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B5277075ED003C1D9E /* ErrorView.swift.swift */; };
@@ -67,6 +74,13 @@
 		1C0D07E1B5F3EA3EA2B059B5 /* Pods_MyBookshelf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBookshelf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A6937D0C98089DA400260BD /* Pods_MyBookshelf_MyBookshelfUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyBookshelf_MyBookshelfUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3143BA982771684A00A96850 /* RetryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryButton.swift; sourceTree = "<group>"; };
+		3143BA9A277171DD00A96850 /* AddMemoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemoButton.swift; sourceTree = "<group>"; };
+		3143BA9F2771920000A96850 /* MemoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRouter.swift; sourceTree = "<group>"; };
+		3143BAA12771920900A96850 /* MemoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoPresenter.swift; sourceTree = "<group>"; };
+		3143BAA32771921100A96850 /* MemoInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoInteractor.swift; sourceTree = "<group>"; };
+		3143BAA52771923D00A96850 /* MemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoView.swift; sourceTree = "<group>"; };
+		3143BAA72771A32100A96850 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
+		3143BAA92771A51700A96850 /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
 		317848B127705AFC003C1D9E /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		317848B327706DEF003C1D9E /* DetailBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBook.swift; sourceTree = "<group>"; };
 		317848B5277075ED003C1D9E /* ErrorView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift.swift; sourceTree = "<group>"; };
@@ -141,6 +155,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3143BA9E277191EC00A96850 /* Memo */ = {
+			isa = PBXGroup;
+			children = (
+				3143BAA52771923D00A96850 /* MemoView.swift */,
+				3143BAA32771921100A96850 /* MemoInteractor.swift */,
+				3143BAA12771920900A96850 /* MemoPresenter.swift */,
+				3143BA9F2771920000A96850 /* MemoRouter.swift */,
+			);
+			path = Memo;
+			sourceTree = "<group>";
+		};
 		31969ECF276874C8004DA6E1 = {
 			isa = PBXGroup;
 			children = (
@@ -241,6 +266,7 @@
 			children = (
 				31969F1B2768A2D0004DA6E1 /* Book.swift */,
 				317848B327706DEF003C1D9E /* DetailBook.swift */,
+				3143BAA72771A32100A96850 /* Memo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -249,10 +275,12 @@
 			isa = PBXGroup;
 			children = (
 				317848B127705AFC003C1D9E /* BaseTabBarController.swift */,
+				3143BAA92771A51700A96850 /* MemoTableViewCell.swift */,
 				31969F1D27698237004DA6E1 /* BookCollectionViewCell.swift */,
 				319BE192276C8BE6003DD11F /* DetailScrollView.swift */,
 				317848B5277075ED003C1D9E /* ErrorView.swift.swift */,
 				3143BA982771684A00A96850 /* RetryButton.swift */,
+				3143BA9A277171DD00A96850 /* AddMemoButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -260,6 +288,7 @@
 		319BE17D276C3296003DD11F /* Module */ = {
 			isa = PBXGroup;
 			children = (
+				3143BA9E277191EC00A96850 /* Memo */,
 				31969F0D27688506004DA6E1 /* New */,
 				31E782BD276B11B9007AA9F2 /* Search */,
 				319BE186276C6806003DD11F /* Detail */,
@@ -577,20 +606,27 @@
 				319BE191276C7841003DD11F /* DetailView.swift in Sources */,
 				317848B6277075ED003C1D9E /* ErrorView.swift.swift in Sources */,
 				319BE18E276C782F003DD11F /* DetailPresenter.swift in Sources */,
+				3143BAA02771920000A96850 /* MemoRouter.swift in Sources */,
 				319BE181276C5E85003DD11F /* ImageCacheManager.swift in Sources */,
+				3143BAAA2771A51700A96850 /* MemoTableViewCell.swift in Sources */,
+				3143BAA62771923D00A96850 /* MemoView.swift in Sources */,
 				31969EDE276874C8004DA6E1 /* SceneDelegate.swift in Sources */,
 				319BE183276C5EB1003DD11F /* String + Exentsion.swift in Sources */,
 				31969F0F2768852A004DA6E1 /* NewInteractor.swift in Sources */,
 				31E782C5276B144B007AA9F2 /* SearchRouter.swift in Sources */,
 				31E782BF276B142F007AA9F2 /* SearchInteractor.swift in Sources */,
+				3143BA9B277171DD00A96850 /* AddMemoButton.swift in Sources */,
 				3143BA992771684A00A96850 /* RetryButton.swift in Sources */,
 				319BE18A276C6828003DD11F /* DetailInteractor.swift in Sources */,
 				317848B427706DEF003C1D9E /* DetailBook.swift in Sources */,
+				3143BAA22771920900A96850 /* MemoPresenter.swift in Sources */,
 				319BE18C276C71B9003DD11F /* EndPoint.swift in Sources */,
 				319B94BE276F0D2200F2BFB5 /* DetailScrollView + Rx.swift in Sources */,
 				317848B227705AFC003C1D9E /* BaseTabBarController.swift in Sources */,
 				31969F1C2768A2D0004DA6E1 /* Book.swift in Sources */,
 				31969F1627688563004DA6E1 /* NewView.swift in Sources */,
+				3143BAA42771921100A96850 /* MemoInteractor.swift in Sources */,
+				3143BAA82771A32100A96850 /* Memo.swift in Sources */,
 				317848BA27709A11003C1D9E /* ErrorView + Rx.swift in Sources */,
 				31E782C1276B1438007AA9F2 /* SearchPresenter.swift in Sources */,
 				31E782C3276B1444007AA9F2 /* SearchView.swift in Sources */,
