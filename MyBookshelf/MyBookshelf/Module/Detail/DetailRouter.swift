@@ -7,13 +7,6 @@
 
 import UIKit
 
-protocol DetailRouterType: AnyObject {
-    var navigation: UINavigationController? { get }
-    
-    func createModule(isbn13: String) -> UIViewController
-    func showMemoModal(isbn13: String)
-}
-
 final class DetailRouter: DetailRouterType {
     weak var navigation: UINavigationController?
     

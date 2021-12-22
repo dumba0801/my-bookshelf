@@ -8,12 +8,6 @@
 import Foundation
 import RealmSwift
 
-protocol MemoInteractorType: AnyObject {
-    var isbn13: String { get }
-    
-    func saveMemo(title: String, body: String)
-}
-
 final class MemoInteractor {
     weak var presenter: MemoPresenterType?
     let isbn13: String

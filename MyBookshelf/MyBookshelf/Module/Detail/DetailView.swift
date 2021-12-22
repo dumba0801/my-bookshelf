@@ -9,14 +9,6 @@ import UIKit
 import SnapKit
 import RxSwift
 
-protocol DetailViewControllerType: AnyObject {
-    var presenter: DetailPresenterType? { get }
-    
-    func onFetchdedDeatilBook(subject: Observable<DetailBook>)
-    func onFetchedMemos(subject: Observable<[Memo]>)
-    func onFetchedError(subject: Observable<Error>)
-}
-
 final class DetailViewController: UIViewController {
     private lazy var scrollView: DetailScrollView = {
         let scrollView = DetailScrollView()

@@ -7,11 +7,6 @@
 
 import Foundation
 
-protocol MemoPresenterType: AnyObject {
-    func saveMemo(title: String?, body: String?)
-    func dismiss()
-}
-
 final class MemoPresenter {
     var router: MemoRouterType?
     var interactor: MemoInteractorType?

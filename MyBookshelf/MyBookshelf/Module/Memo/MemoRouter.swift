@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol MemoRouterType: AnyObject {
-    func dismiss()
-}
-
 final class MemoRouter {
     weak var navigation: UINavigationController?
     

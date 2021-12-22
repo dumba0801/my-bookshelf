@@ -5,15 +5,7 @@
 //  Created by dumba on 2021/12/16.
 //
 
-import Foundation
 import UIKit
-
-protocol SearchRouterType: AnyObject {
-    var navigation: UINavigationController? { get }
-    
-    func createModule() -> SearchViewController
-    func showDetail(isbn13: String)
-}
 
 final class SearchRouter: SearchRouterType {
     var navigation: UINavigationController?

@@ -11,15 +11,6 @@ import ObjectMapper
 import SwiftyJSON
 import RealmSwift
 
-protocol DetailInteractorType: AnyObject {
-    var presenter: DetailPresenterType? { get }
-    var isbn13: String { get }
-    var service: APIService { get }
-    
-    func fetchDetailBook()
-    func fetchMemos()
-}
-
 final class DetailInteractor {
     weak var presenter: DetailPresenterType?
     let isbn13: String

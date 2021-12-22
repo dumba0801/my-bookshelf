@@ -10,11 +10,6 @@ import RxSwift
 import RxRelay
 import SwiftyJSON
 import ObjectMapper
-protocol SearchInteractorType: AnyObject {
-    var presenter: SearchPresenterType? { get }
-    var service: APIService { get }
-    func fetchSearchBooks(keyword: String)
-}
 
 final class SearchInteractor: SearchInteractorType {
     

@@ -8,17 +8,6 @@
 import Foundation
 import RxSwift
 
-protocol SearchPresenterType: AnyObject {
-    var interactor: SearchInteractorType? { get }
-    var router: SearchRouterType? { get }
-    var view: SearchViewType? { get }
-    
-    func fetchSearchBook(subject: Observable<String?>)
-    func onFetchedSearchBook(subject: Observable<[Book]>)
-    func onFetchedError(subject: Observable<Error>)
-    func showDetail(isbn13: String)
-}
-
 final class SearchPresenter: SearchPresenterType {
     var interactor: SearchInteractorType?
     var router: SearchRouterType?

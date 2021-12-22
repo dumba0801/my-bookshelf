@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol NewRouterType: AnyObject {
-    var navigation: UINavigationController? { get }
-    func showDetail(isbn13: String)
-}
-
 final class NewRouter: NewRouterType {
     weak var navigation: UINavigationController?
     

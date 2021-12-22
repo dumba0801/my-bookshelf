@@ -10,13 +10,6 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-protocol SearchViewType: AnyObject {
-    var presenter: SearchPresenterType? { get }
-    
-    func onFetchedSearchBooks(subject: Observable<[Book]>)
-    func onFetchedError(subject: Observable<Error>)
-}
-
 final class SearchViewController: UIViewController {
     typealias Cell = BookCollectionViewCell
     

@@ -10,12 +10,6 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-protocol NewViewControllerType: AnyObject {
-    var presenter: NewPresenterType? { get }
-    func onFetchedNewBooks(subject: Observable<[Book]>)
-    func onFetchedError(subject: Observable<Error>)
-}
-
 final class NewViewController: UIViewController {
     typealias Cell = BookCollectionViewCell
     

@@ -8,15 +8,6 @@
 import Foundation
 import RxSwift
 
-protocol DetailPresenterType: AnyObject {
-    func fetchDetailBook(subject: Observable<Void>)
-    func fetchMemos(subject: Observable<Void>)
-    func onFetchedDetailBook(subject: Observable<DetailBook>)
-    func onFetchedError(subject: Observable<Error>)
-    func onFetchedMemos(subject: Observable<[Memo]>)
-    func showMemoModal()
-}
-
 final class DetailPresenter {
     var interactor: DetailInteractorType?
     var router: DetailRouterType?

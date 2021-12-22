@@ -17,6 +17,10 @@
 		3143BAA62771923D00A96850 /* MemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAA52771923D00A96850 /* MemoView.swift */; };
 		3143BAA82771A32100A96850 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAA72771A32100A96850 /* Memo.swift */; };
 		3143BAAA2771A51700A96850 /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAA92771A51700A96850 /* MemoTableViewCell.swift */; };
+		3143BAAC2772E4DB00A96850 /* MemoModuleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAAB2772E4DB00A96850 /* MemoModuleProtocols.swift */; };
+		3143BAAE2772E50E00A96850 /* NewModuleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAAD2772E50E00A96850 /* NewModuleProtocols.swift */; };
+		3143BAB02772E5BF00A96850 /* SearchModuleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAAF2772E5BF00A96850 /* SearchModuleProtocols.swift */; };
+		3143BAB22772E61A00A96850 /* DetailModuleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAB12772E61A00A96850 /* DetailModuleProtocols.swift */; };
 		317848B227705AFC003C1D9E /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B127705AFC003C1D9E /* BaseTabBarController.swift */; };
 		317848B427706DEF003C1D9E /* DetailBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B327706DEF003C1D9E /* DetailBook.swift */; };
 		317848B6277075ED003C1D9E /* ErrorView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B5277075ED003C1D9E /* ErrorView.swift.swift */; };
@@ -81,6 +85,10 @@
 		3143BAA52771923D00A96850 /* MemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoView.swift; sourceTree = "<group>"; };
 		3143BAA72771A32100A96850 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		3143BAA92771A51700A96850 /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
+		3143BAAB2772E4DB00A96850 /* MemoModuleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoModuleProtocols.swift; sourceTree = "<group>"; };
+		3143BAAD2772E50E00A96850 /* NewModuleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewModuleProtocols.swift; sourceTree = "<group>"; };
+		3143BAAF2772E5BF00A96850 /* SearchModuleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModuleProtocols.swift; sourceTree = "<group>"; };
+		3143BAB12772E61A00A96850 /* DetailModuleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModuleProtocols.swift; sourceTree = "<group>"; };
 		317848B127705AFC003C1D9E /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		317848B327706DEF003C1D9E /* DetailBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBook.swift; sourceTree = "<group>"; };
 		317848B5277075ED003C1D9E /* ErrorView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift.swift; sourceTree = "<group>"; };
@@ -158,6 +166,7 @@
 		3143BA9E277191EC00A96850 /* Memo */ = {
 			isa = PBXGroup;
 			children = (
+				3143BAAB2772E4DB00A96850 /* MemoModuleProtocols.swift */,
 				3143BAA52771923D00A96850 /* MemoView.swift */,
 				3143BAA32771921100A96850 /* MemoInteractor.swift */,
 				3143BAA12771920900A96850 /* MemoPresenter.swift */,
@@ -244,6 +253,7 @@
 		31969F0D27688506004DA6E1 /* New */ = {
 			isa = PBXGroup;
 			children = (
+				3143BAAD2772E50E00A96850 /* NewModuleProtocols.swift */,
 				31969F1527688563004DA6E1 /* NewView.swift */,
 				31969F0E2768852A004DA6E1 /* NewInteractor.swift */,
 				31969F1027688538004DA6E1 /* NewPresenter.swift */,
@@ -317,6 +327,7 @@
 		319BE186276C6806003DD11F /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				3143BAB12772E61A00A96850 /* DetailModuleProtocols.swift */,
 				319BE190276C7841003DD11F /* DetailView.swift */,
 				319BE189276C6828003DD11F /* DetailInteractor.swift */,
 				319BE18D276C782F003DD11F /* DetailPresenter.swift */,
@@ -328,6 +339,7 @@
 		31E782BD276B11B9007AA9F2 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				3143BAAF2772E5BF00A96850 /* SearchModuleProtocols.swift */,
 				31E782C2276B1444007AA9F2 /* SearchView.swift */,
 				31E782BE276B142F007AA9F2 /* SearchInteractor.swift */,
 				31E782C0276B1438007AA9F2 /* SearchPresenter.swift */,
@@ -615,8 +627,10 @@
 				31969F0F2768852A004DA6E1 /* NewInteractor.swift in Sources */,
 				31E782C5276B144B007AA9F2 /* SearchRouter.swift in Sources */,
 				31E782BF276B142F007AA9F2 /* SearchInteractor.swift in Sources */,
+				3143BAB22772E61A00A96850 /* DetailModuleProtocols.swift in Sources */,
 				3143BA9B277171DD00A96850 /* AddMemoButton.swift in Sources */,
 				3143BA992771684A00A96850 /* RetryButton.swift in Sources */,
+				3143BAAE2772E50E00A96850 /* NewModuleProtocols.swift in Sources */,
 				319BE18A276C6828003DD11F /* DetailInteractor.swift in Sources */,
 				317848B427706DEF003C1D9E /* DetailBook.swift in Sources */,
 				3143BAA22771920900A96850 /* MemoPresenter.swift in Sources */,
@@ -630,7 +644,9 @@
 				317848BA27709A11003C1D9E /* ErrorView + Rx.swift in Sources */,
 				31E782C1276B1438007AA9F2 /* SearchPresenter.swift in Sources */,
 				31E782C3276B1444007AA9F2 /* SearchView.swift in Sources */,
+				3143BAB02772E5BF00A96850 /* SearchModuleProtocols.swift in Sources */,
 				319BE185276C6309003DD11F /* AppRouter.swift in Sources */,
+				3143BAAC2772E4DB00A96850 /* MemoModuleProtocols.swift in Sources */,
 				31969F1127688538004DA6E1 /* NewPresenter.swift in Sources */,
 				31969F1327688540004DA6E1 /* NewRouter.swift in Sources */,
 			);

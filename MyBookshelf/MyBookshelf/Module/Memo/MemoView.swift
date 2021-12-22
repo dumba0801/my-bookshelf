@@ -10,9 +10,6 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-protocol MemoViewType: AnyObject {
-    var presenter: MemoPresenterType? { get }
-}
 
 final class MemoViewController: UIViewController {
     

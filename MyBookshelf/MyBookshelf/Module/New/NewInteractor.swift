@@ -11,12 +11,6 @@ import RxCocoa
 import ObjectMapper
 import SwiftyJSON
 
-protocol NewInteractorType: AnyObject {
-    var presenter: NewPresenterType? { get }
-    var service: APIService { get }
-    func fetchNewBooks()
-}
-
 final class NewInteractor {
     weak var presenter: NewPresenterType?
     let service = APIService.shared

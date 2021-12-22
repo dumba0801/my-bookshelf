@@ -9,14 +9,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol NewPresenterType: AnyObject {
-    var interactor: NewInteractorType? { get }
-    func fetchNewBooks(subject: Observable<Void>)
-    func showDetail(isbn13: String)
-    func onFetchedNewBooks(subject: Observable<[Book]>)
-    func onFetchedError(subject: Observable<Error>)
-}
-
 final class NewPresenter {
     var interactor: NewInteractorType?
     var router: NewRouterType?
