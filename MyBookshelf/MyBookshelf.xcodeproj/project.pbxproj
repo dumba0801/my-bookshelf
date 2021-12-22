@@ -84,7 +84,7 @@
 		317848B127705AFC003C1D9E /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		317848B327706DEF003C1D9E /* DetailBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBook.swift; sourceTree = "<group>"; };
 		317848B5277075ED003C1D9E /* ErrorView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift.swift; sourceTree = "<group>"; };
-		317848B727707989003C1D9E /* disconnected.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = disconnected.json; path = ../../../../../channel_talk_caller/ChannelTalkCaller/ChannelTalkCaller/Application/Assets/disconnected.json; sourceTree = "<group>"; };
+		317848B727707989003C1D9E /* disconnected.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = disconnected.json; sourceTree = "<group>"; };
 		317848B927709A11003C1D9E /* ErrorView + Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ErrorView + Rx.swift"; sourceTree = "<group>"; };
 		31969ED8276874C8004DA6E1 /* MyBookshelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBookshelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31969EDB276874C8004DA6E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
