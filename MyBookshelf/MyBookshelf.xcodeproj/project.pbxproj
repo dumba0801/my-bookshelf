@@ -200,13 +200,13 @@
 		31969EDA276874C8004DA6E1 /* MyBookshelf */ = {
 			isa = PBXGroup;
 			children = (
+				31969F0B2768807F004DA6E1 /* App */,
 				319B94BF276F0D4500F2BFB5 /* View */,
 				319BE17F276C5E79003DD11F /* Util */,
 				319BE17E276C5E73003DD11F /* Extension */,
 				319BE17D276C3296003DD11F /* Module */,
 				31969F1A2768A2BA004DA6E1 /* Model */,
 				31969F1927689F6F004DA6E1 /* Network */,
-				31969F0B2768807F004DA6E1 /* App */,
 			);
 			path = MyBookshelf;
 			sourceTree = "<group>";

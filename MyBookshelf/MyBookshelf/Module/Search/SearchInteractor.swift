@@ -19,7 +19,8 @@ final class SearchInteractor: SearchInteractorType {
     
     func fetchSearchBooks(keyword: String) {
         guard let presenter = presenter else { return }
-        let subject = BehaviorSubject<[(String, [Book])]>(value: [])
+        self.disposeBag = DisposeBag()
+        let subject = BehaviorSubject<[String: [Book]]>(value: [:])
         
         self.pagination(subject: subject, keyword: keyword)
         
@@ -35,7 +36,7 @@ final class SearchInteractor: SearchInteractorType {
             }.disposed(by: self.disposeBag)
     }
     
-    private func pagination(subject: BehaviorSubject<[(String, [Book])]>,
+    private func pagination(subject: BehaviorSubject<[String: [Book]]>,
                             keyword: String,
                             page: String = "1"
     ) {
@@ -47,11 +48,11 @@ final class SearchInteractor: SearchInteractorType {
                 else { return }
                 
                 let nextPage = String(page + 1)
-                
+
                 do {
                     var value = try subject.value()
                     self.pagination(subject: subject, keyword: keyword, page: nextPage)
-                    value.append((nextPage, books))
+                    value[String(page)] = books
                     subject.onNext(value)
                 } catch let error {
                     subject.onError(error)
