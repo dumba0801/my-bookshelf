@@ -18,7 +18,7 @@ final class SearchInteractor: SearchInteractorType {
     private var disposeBag = DisposeBag()
     
     func fetchSearchBooks(keyword: String) {
-        guard let presenter = presenter else { return }
+        guard let presenter = self.presenter else { return }
         self.disposeBag = DisposeBag()
         let subject = BehaviorSubject<[String: [Book]]>(value: [:])
         
@@ -41,7 +41,7 @@ final class SearchInteractor: SearchInteractorType {
                             page: String = "1"
     ) {
         self.requestSearchBooks(keyword: keyword, page: page)
-            .subscribe { [weak self] (page, books) in
+            .subscribe { [weak self] page, books in
                 guard let self = self,
                       let page = Int(page),
                       !books.isEmpty

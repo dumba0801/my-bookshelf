@@ -17,6 +17,7 @@ protocol NewViewControllerType: AnyObject {
 protocol NewInteractorType: AnyObject {
     var presenter: NewPresenterType? { get }
     var service: APIService { get }
+    
     func fetchNewBooks()
 }
 

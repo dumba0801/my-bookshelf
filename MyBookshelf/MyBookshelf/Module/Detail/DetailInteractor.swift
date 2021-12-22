@@ -24,7 +24,7 @@ final class DetailInteractor {
 
 extension DetailInteractor: DetailInteractorType {
     func fetchDetailBook() {
-        guard let presenter = presenter else { return }
+        guard let presenter = self.presenter else { return }
         
         self.requestDetailBook()
             .subscribe { book in
