@@ -31,8 +31,8 @@ final class MemoTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubviews()
-        configureLayout()
+        self.addSubviews()
+        self.configureLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -57,18 +57,18 @@ final class MemoTableViewCell: UITableViewCell {
         
         self.bodyLabel.snp.makeConstraints { make in
             make.top.equalTo(self.titleLabel.snp.bottom).offset(Metric.bodyLabelTop)
-            make.leading.bottom.equalToSuperview().inset(Metric.bodyLabelLeadingTrailingBottom)
+            make.leading.bottom.equalToSuperview().inset(Metric.bodyLabelBottomLeadingTrailing)
         }
     }
     
     func onData(subject: Observable<Memo>) {
         subject.map { $0.title }
-        .bind(to: titleLabel.rx.text)
-        .disposed(by: disposeBag)
+        .bind(to: self.titleLabel.rx.text)
+        .disposed(by: self.disposeBag)
         
         subject.map { $0.body }
-        .bind(to: bodyLabel.rx.text)
-        .disposed(by: disposeBag)
+        .bind(to: self.bodyLabel.rx.text)
+        .disposed(by: self.disposeBag)
     }
 }
 
@@ -78,6 +78,6 @@ extension MemoTableViewCell {
         static let titleLabelTopLeading = CGFloat(20)
         static let titleLabelTrailng = CGFloat(20)
         static let bodyLabelTop = CGFloat(20)
-        static let bodyLabelLeadingTrailingBottom = CGFloat(20)
+        static let bodyLabelBottomLeadingTrailing = CGFloat(20)
     }
 }

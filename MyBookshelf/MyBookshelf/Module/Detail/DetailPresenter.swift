@@ -27,19 +27,19 @@ final class DetailPresenter {
 
 extension DetailPresenter: DetailPresenterType {
     func fetchDetailBook(subject: Observable<Void>) {
-        subject.subscribe(onNext: {
-            [weak self] _ in
-            guard
-                let self = self,
-                let interactor = self.interactor
-            else { return }
-            interactor.fetchDetailBook()
-        }).disposed(by: disposeBag)
+        subject
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                guard
+                    let self = self,
+                    let interactor = self.interactor
+                else { return }
+                interactor.fetchDetailBook()
+            }).disposed(by: self.disposeBag)
     }
     
     func fetchMemos(subject: Observable<Void>) {
-        subject.subscribe(onNext: {
-            [weak self] _ in
+        subject.subscribe(onNext: { [weak self] _ in
             guard
                 let self = self,
                 let interactor = self.interactor
@@ -48,7 +48,7 @@ extension DetailPresenter: DetailPresenterType {
             }
             
             interactor.fetchMemos()
-        }).disposed(by: disposeBag)
+        }).disposed(by: self.disposeBag)
     }
     
     func onFetchedDetailBook(subject: Observable<DetailBook>) {
@@ -59,19 +59,19 @@ extension DetailPresenter: DetailPresenterType {
             
             view.onFetchdedDeatilBook(subject: subject)
             
-        }).disposed(by: disposeBag)
+        }).disposed(by: self.disposeBag)
     }
     
     func onFetchedError(subject: Observable<Error>) {
-        guard let view = view else { return }
+        guard let view = self.view else { return }
         
         view.onFetchedError(subject: subject)
     }
     
     func showMemoModal() {
         guard
-            let router = router,
-            let interactor = interactor
+            let router = self.router,
+            let interactor = self.interactor
         else {
             return
         }
@@ -80,7 +80,7 @@ extension DetailPresenter: DetailPresenterType {
     }
     
     func onFetchedMemos(subject: Observable<[Memo]>) {
-        guard let view = view else { return }
+        guard let view = self.view else { return }
         
         view.onFetchedMemos(subject: subject)
     }

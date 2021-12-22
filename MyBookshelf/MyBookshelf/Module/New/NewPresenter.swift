@@ -27,28 +27,29 @@ final class NewPresenter {
 
 extension NewPresenter: NewPresenterType {
     func fetchNewBooks(subject: Observable<Void>) {
-        subject.subscribe(onNext: {
-            [weak self] _ in
+        subject
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
                 guard
                     let self = self,
                     let interactor = self.interactor
                 else { return }
                 interactor.fetchNewBooks()
-        }).disposed(by: disposeBag)
+            }).disposed(by: self.disposeBag)
     }
     
     func onFetchedNewBooks(subject: Observable<[Book]>) {
-        guard let view = view else { return }
+        guard let view = self.view else { return }
         view.onFetchedNewBooks(subject: subject)
     }
-        
+    
     func onFetchedError(subject: Observable<Error>) {
-        guard let view = view else { return }
+        guard let view = self.view else { return }
         view.onFetchedError(subject: subject)
     }
     
     func showDetail(isbn13: String) {
-        guard let router = router else { return }
+        guard let router = self.router else { return }
         router.showDetail(isbn13: isbn13)
     }
 }

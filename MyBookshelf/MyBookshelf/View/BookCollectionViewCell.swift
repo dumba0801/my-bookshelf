@@ -14,7 +14,7 @@ class BookCollectionViewCell: UICollectionViewCell {
     static let identifier = "BookCollectionViewCell"
     
     private lazy var imageView: UIImageView = {
-       var imageView = UIImageView()
+        var imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -44,8 +44,8 @@ class BookCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubviews()
-        configureLayout()
+        self.addSubviews()
+        self.configureLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -53,29 +53,29 @@ class BookCollectionViewCell: UICollectionViewCell {
     }
     
     private func addSubviews() {
-        addSubview(imageView)
-        addSubview(titleLabel)
-        addSubview(subtitleLabel)
-        addSubview(priceLabel)
-
+        self.addSubview(imageView)
+        self.addSubview(titleLabel)
+        self.addSubview(subtitleLabel)
+        self.addSubview(priceLabel)
+        
     }
     private func configureLayout() {
-        imageView.snp.makeConstraints { make in
+        self.imageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(-Metric.imageViewTop)
             make.centerX.width.height.equalToSuperview()
         }
         
-        titleLabel.snp.makeConstraints { make in
+        self.titleLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(-Metric.titleLabelTop)
             make.leading.trailing.equalToSuperview()
         }
         
-        subtitleLabel.snp.makeConstraints { make in
+        self.subtitleLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(Metric.subtitleTop)
             make.leading.trailing.equalToSuperview()
         }
         
-        priceLabel.snp.makeConstraints { make in
+        self.priceLabel.snp.makeConstraints { make in
             make.top.equalTo(subtitleLabel.snp.bottom).offset(Metric.priceTop)
             make.leading.trailing.equalToSuperview()
         }
@@ -83,37 +83,38 @@ class BookCollectionViewCell: UICollectionViewCell {
     
     func onBookData(subject: Observable<Book>) {
         subject.map { $0.title }
-        .bind(to: titleLabel.rx.text)
-        .disposed(by: disposeBag)
+        .bind(to: self.titleLabel.rx.text)
+        .disposed(by: self.disposeBag)
         
         subject.compactMap{ $0.subtitle }
-        .bind(to: subtitleLabel.rx.text)
-        .disposed(by: disposeBag)
+        .bind(to: self.subtitleLabel.rx.text)
+        .disposed(by: self.disposeBag)
         
         subject.map{ $0.price }
-        .bind(to: priceLabel.rx.text)
-        .disposed(by: disposeBag)
+        .bind(to: self.priceLabel.rx.text)
+        .disposed(by: self.disposeBag)
         
         subject.compactMap{ $0.image }
         .flatMap { $0.image() }
-        .bind(to: imageView.rx.image)
-        .disposed(by: disposeBag)
+        .bind(to: self.imageView.rx.image)
+        .disposed(by: self.disposeBag)
     }
     
     func adjustLayout() {
-        _ = subtitleLabel.text != nil ? nonEmptySubtitleLabelLayout() : emptySubtitleLabelLayout()
+        _ = self.subtitleLabel.text != nil
+        ? self.nonEmptySubtitleLabelLayout() : self.emptySubtitleLabelLayout()
     }
     
     
     private func emptySubtitleLabelLayout() {
-        priceLabel.snp.remakeConstraints { make in
+        self.priceLabel.snp.remakeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(Metric.priceTop)
             make.leading.trailing.equalToSuperview()
         }
     }
     
     private func nonEmptySubtitleLabelLayout() {
-        priceLabel.snp.remakeConstraints { make in
+        self.priceLabel.snp.remakeConstraints { make in
             make.top.equalTo(subtitleLabel.snp.bottom).offset(Metric.priceTop)
             make.leading.trailing.equalToSuperview()
         }
@@ -121,8 +122,8 @@ class BookCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageView.image = nil
-        disposeBag = DisposeBag()
+        self.imageView.image = nil
+        self.disposeBag = DisposeBag()
     }
 }
 
@@ -133,13 +134,13 @@ extension BookCollectionViewCell {
         static let subtitleTop = CGFloat(2)
         static let priceTop = CGFloat(2)
     }
-
+    
     private enum Font {
         static let titleLabel = UIFont.boldSystemFont(ofSize: 14)
         static let subtitleLabel = UIFont.systemFont(ofSize: 12)
         static let priceLabel = UIFont.systemFont(ofSize: 12)
     }
-
+    
     private enum Constant {
         static let titleNumberOfLines = 2
         static let subtitleNumberOfLines = 1

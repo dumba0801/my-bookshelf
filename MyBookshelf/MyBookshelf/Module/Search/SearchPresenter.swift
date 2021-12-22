@@ -13,7 +13,7 @@ protocol SearchPresenterType: AnyObject {
     var router: SearchRouterType? { get }
     var view: SearchViewType? { get }
     
-    func fetchSearchBook(subject: Observable<String?>) 
+    func fetchSearchBook(subject: Observable<String?>)
     func onFetchedSearchBook(subject: Observable<[Book]>)
     func onFetchedError(subject: Observable<Error>)
     func showDetail(isbn13: String)
@@ -28,14 +28,15 @@ final class SearchPresenter: SearchPresenterType {
     
     func fetchSearchBook(subject: Observable<String?>) {
         subject
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .compactMap{ $0 }
             .subscribe(onNext: { [weak self] keyword in
-            guard let self = self,
-                  let interactor = self.interactor
-            else { return }
-
-            interactor.fetchSearchBooks(keyword: keyword)
-        }).disposed(by: disposeBag)
+                guard let self = self,
+                      let interactor = self.interactor
+                else { return }
+                
+                interactor.fetchSearchBooks(keyword: keyword)
+            }).disposed(by: self.disposeBag)
         
     }
     

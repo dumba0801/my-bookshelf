@@ -11,22 +11,21 @@ final class RetryButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        create()
+        self.configure()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        create()
     }
     
-    private func create() {
-        backgroundColor = .label
-        layer.cornerRadius = Constant.cornerRadius
-        setTitle(Constant.titleText, for: .normal)
-        setTitleColor(.systemBackground, for: .normal)
-        titleLabel?.font = Font.titleLabel
-        setImage(Constant.buttonImage, for: .normal)
-        imageView?.contentMode = .scaleAspectFit
+    private func configure() {
+        self.backgroundColor = .label
+        self.layer.cornerRadius = Constant.cornerRadius
+        self.setTitle(Constant.titleText, for: .normal)
+        self.setTitleColor(.systemBackground, for: .normal)
+        self.titleLabel?.font = Font.titleLabel
+        self.setImage(Constant.buttonImage, for: .normal)
+        self.imageView?.contentMode = .scaleAspectFit
     }
 }
 

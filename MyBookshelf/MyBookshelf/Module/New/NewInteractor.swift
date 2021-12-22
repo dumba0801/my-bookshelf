@@ -26,23 +26,23 @@ final class NewInteractor {
 
 extension NewInteractor: NewInteractorType {
     func fetchNewBooks() {
-        guard let presenter = presenter else { return }
+        guard let presenter = self.presenter else { return }
         
-        requestNewBooks()
+        self.requestNewBooks()
             .subscribe { book in
                 let subject = Observable<[Book]>.just(book)
                 presenter.onFetchedNewBooks(subject: subject)
             } onFailure: { error in
                 let subject = Observable<Error>.just(error)
                 presenter.onFetchedError(subject: subject)
-            }.disposed(by: disposeBag)
-
+            }.disposed(by: self.disposeBag)
+        
     }
     
     private func requestNewBooks() -> Single<[Book]> {
         let endpoint = EndPoint(path: .new)
         let url = endpoint.url()
-        return service.request(convertible: url)
+        return self.service.request(convertible: url)
             .map { data in
                 let json = JSON(data)
                 let object = json["books"].arrayObject

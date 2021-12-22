@@ -81,6 +81,7 @@ public final class DetailScrollView: UIScrollView {
         let label = UILabel()
         label.text = "Your Memo"
         label.font = Font.memoHeaderLabel
+        label.isHidden = true
         return label
     }()
     
@@ -92,6 +93,7 @@ public final class DetailScrollView: UIScrollView {
         tableView.separatorInset.left = Constant.tableViewLeftSeparatorInset
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = Constant.tableViewEstimatedHeight
+        tableView.isHidden = true
         return tableView
     }()
     
@@ -105,10 +107,14 @@ public final class DetailScrollView: UIScrollView {
     
     var book: DetailBook? {
         willSet {
+            memoHeaderLabel.isHidden = true
+            memoTableView.isHidden = true
             addMemoButton.isHidden = true
         }
         didSet {
             changedBook()
+            memoHeaderLabel.isHidden = false
+            memoTableView.isHidden = false
             addMemoButton.isHidden = false
         }
     }
@@ -194,7 +200,7 @@ public final class DetailScrollView: UIScrollView {
         publisherLabel.snp.makeConstraints { make in
             make.top.equalTo(authorsLabel.snp.bottom).offset(Metric.defaultTop)
             make.leading.trailing.equalToSuperview().inset(Metric.defualtLeadingTrailng)
-
+            
         }
         
         languageLabel.snp.makeConstraints { make in
@@ -243,7 +249,7 @@ public final class DetailScrollView: UIScrollView {
     
     private func changedBook() {
         guard let book = book else { return }
-
+        
         Observable.just(())
             .flatMap { _ in book.imageUrl!.image() }
             .bind(to: imageView.rx.image)

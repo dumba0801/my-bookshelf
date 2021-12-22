@@ -16,11 +16,12 @@ final class BaseTabBarController: UITabBarController {
         search.tabBarItem = UITabBarItem(tabBarSystemItem: .search,
                                          tag: Constant.searchViewControllerTag)
         
-        viewControllers = [new, search]
+        self.viewControllers = [new, search]
         
         let appearance = UITabBarAppearance()
         appearance.configureWithDefaultBackground()
-        tabBar.scrollEdgeAppearance = appearance
+        
+        self.tabBar.scrollEdgeAppearance = appearance
     }
     
     required init?(coder: NSCoder) {

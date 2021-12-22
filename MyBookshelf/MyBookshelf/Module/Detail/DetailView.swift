@@ -40,74 +40,54 @@ final class DetailViewController: UIViewController {
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
-        
+        guard let presenter = presenter else { return }
+
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        tabBarController?.tabBar.isHidden = true
-        addSubviews()
-        confiureLayout()
-
+        self.view.backgroundColor = .systemBackground
+        self.tabBarController?.tabBar.isHidden = true
+        self.addSubviews()
+        self.confiureLayout()
+        
         let viewDidLoad = Observable.just(())
+        let retry = self.errorView.rx.retry.map { $0 }
+        let fetchSubject = Observable.of(viewDidLoad, retry)
+                                .merge()
+                                .do(onNext: { [weak self] _ in
+                                    guard let self = self else {return}
+                                    self.activityIndicator.startAnimating()
+                                })
         
-        let retry = errorView.rx.retry
-            .debounce(.seconds(1), scheduler: MainScheduler.instance)
-
-        Observable.of(viewDidLoad, retry).merge()
-            .do(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.activityIndicator.startAnimating()
-            }).bind { [weak self] _ in
-                guard
-                    let self = self,
-                    let presenter = self.presenter
-                else {
-                    return
-                }
-                
-                presenter.fetchDetailBook(subject: Observable.just(()))
-                
-            }.disposed(by: disposeBag)
-        
-        
-        guard let presenter = presenter else {
-            return
-        }
+        presenter.fetchDetailBook(subject: fetchSubject)
         
         presenter.fetchMemos(subject: Observable.just(()))
         
-        scrollView.rx.addMemo.bind { [weak self] _ in
-            guard let self = self,
-                  let presenter = self.presenter
-            else {
-                return
-            }
-            
+        self.scrollView.rx.addMemo.bind { _ in
             presenter.showMemoModal()
-        }.disposed(by: disposeBag)
+        }.disposed(by: self.disposeBag)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
     }
-
+    
     
     private func addSubviews() {
-        view.addSubview(scrollView)
-        view.addSubview(errorView)
-        view.addSubview(activityIndicator)
+        self.view.addSubview(self.scrollView)
+        self.view.addSubview(self.errorView)
+        self.view.addSubview(self.activityIndicator)
     }
     
     private func confiureLayout() {
-        activityIndicator.snp.makeConstraints { make in
+        self.activityIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         
-        scrollView.snp.makeConstraints { make in
+        self.scrollView.snp.makeConstraints { make in
             make.centerX.width.edges.equalToSuperview()
         }
         
-        errorView.snp.makeConstraints { make in
+        self.errorView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -115,38 +95,37 @@ final class DetailViewController: UIViewController {
     private func switchView(error: Bool) {
         guard errorFlag != error else { return }
         
-        errorView.play = error
-        errorView.isHidden = !error
-        scrollView.isHidden = error
-        errorFlag = error
+        self.errorView.play = error
+        self.errorView.isHidden = !error
+        self.scrollView.isHidden = error
+        self.errorFlag = error
     }
 }
 
 extension DetailViewController: DetailViewControllerType {
     func onFetchdedDeatilBook(subject: Observable<DetailBook>) {
-        switchView(error: false)
+        self.switchView(error: false)
         
         subject
             .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.activityIndicator.stopAnimating()
-            })
-            .bind(to: scrollView.rx.book)
-            .disposed(by: disposeBag)
+            }).bind(to: self.scrollView.rx.book)
+            .disposed(by: self.disposeBag)
     }
     
     func onFetchedError(subject: Observable<Error>) {
-        switchView(error: true)
+        self.switchView(error: true)
         
         subject.bind { [weak self] _ in
             guard let self = self else { return }
             self.activityIndicator.stopAnimating()
-        }.disposed(by: disposeBag)
+        }.disposed(by: self.disposeBag)
     }
     
     func onFetchedMemos(subject: Observable<[Memo]>) {
         subject
-            .bind(to: scrollView.rx.memos)
-            .disposed(by: disposeBag)
+            .bind(to: self.scrollView.rx.memos)
+            .disposed(by: self.disposeBag)
     }
 }

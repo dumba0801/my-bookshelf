@@ -25,7 +25,7 @@ final class MemoInteractor {
 
 extension MemoInteractor: MemoInteractorType {
     func saveMemo(title: String, body: String) {
-        guard let presenter = presenter else { return }
+        guard let presenter = self.presenter else { return }
         
         let memo = Memo()
         memo.isbn13 = self.isbn13

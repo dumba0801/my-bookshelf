@@ -12,7 +12,7 @@ final class ImageCacheManager {
     static private var cache = NSCache<NSString, UIImage>()
     
     static func image(key: NSString) -> UIImage? {
-        cache.object(forKey: key)
+        self.cache.object(forKey: key)
     }
     
     static func save(key: NSString, image: UIImage) {

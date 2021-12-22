@@ -14,7 +14,7 @@ protocol SearchViewType: AnyObject {
     var presenter: SearchPresenterType? { get }
     
     func onFetchedSearchBooks(subject: Observable<[Book]>)
-    func onFetchedError(subject: Observable<Error>) 
+    func onFetchedError(subject: Observable<Error>)
 }
 
 final class SearchViewController: UIViewController {
@@ -44,73 +44,62 @@ final class SearchViewController: UIViewController {
     var presenter: SearchPresenterType?
     
     private var errorFlag = false
-
+    
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         guard let presenter = presenter else { return }
         
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        navigationItem.title = Constant.navigationTitle
-        addSubviews()
-        configureLayout()
+        self.view.backgroundColor = .systemBackground
+        self.navigationItem.title = Constant.navigationTitle
+        self.addSubviews()
+        self.configureLayout()
         
-        searchBar.rx.searchButtonClicked
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self,
-                      let presenter = self.presenter
-                else { return }
-                
-                let subject = Observable<String?>.just(self.searchBar.text)
-                presenter.fetchSearchBook(subject: subject)
-                self.searchBar.resignFirstResponder()
-            }).disposed(by: disposeBag)
+        let searchButtonClicked = self.searchBar.rx.searchButtonClicked
+        let retry = self.errorView.rx.retry
+        let fetchSubject = Observable.of(searchButtonClicked, retry)
+                                .merge()
+                                .map { [weak self] _ -> String? in
+                                    guard let self = self else { return nil }
+                                    return self.searchBar.text
+                                }
         
-        collectionView.rx.modelSelected(Book.self)
+        presenter.fetchSearchBook(subject: fetchSubject)
+        
+        self.collectionView.rx.modelSelected(Book.self)
             .subscribe(onNext: { book in
                 guard let isbn13 = book.isbn13 else { return }
                 presenter.showDetail(isbn13: isbn13)
-            }).disposed(by: disposeBag)
+            }).disposed(by: self.disposeBag)
         
-        errorView.rx.retry
-            .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .bind { [weak self] _ in
-                guard
-                    let self = self,
-                    let presenter = self.presenter
-                else { return }
-                
-                presenter.fetchSearchBook(subject: Observable.just(self.searchBar.text))
-                
-            }.disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
     }
-
+    
     
     private func addSubviews() {
-        view.addSubview(searchBar)
-        view.addSubview(collectionView)
-        view.addSubview(errorView)
+        self.view.addSubview(searchBar)
+        self.view.addSubview(collectionView)
+        self.view.addSubview(errorView)
     }
     
     private func configureLayout() {
-        searchBar.snp.makeConstraints { make in
+        self.searchBar.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(view.snp_topMargin)
+            make.top.equalTo(self.view.snp_topMargin)
         }
         
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(searchBar.snp.bottom).offset(Metric.collectionViewTop)
+        self.collectionView.snp.makeConstraints { make in
+            make.top.equalTo(self.searchBar.snp.bottom).offset(Metric.collectionViewTop)
             make.leading.trailing.equalToSuperview().inset(Metric.collectionViewLeadingTrailng)
             make.bottom.equalToSuperview()
         }
         
-        errorView.snp.makeConstraints { make in
+        self.errorView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -118,30 +107,30 @@ final class SearchViewController: UIViewController {
 
 extension SearchViewController: SearchViewType {
     func onFetchedSearchBooks(subject: Observable<[Book]>) {
-        switchView(error: false)
-        collectionView.dataSource = nil
+        self.switchView(error: false)
+        self.collectionView.dataSource = nil
         subject
-            .bind(to: collectionView.rx.items(cellIdentifier: Cell.identifier,
-                                              cellType: Cell.self)) {
+            .bind(to: self.collectionView.rx.items(cellIdentifier: Cell.identifier,
+                                                   cellType: Cell.self)) {
                 _, book, cell in
                 
                 let subject = Observable<Book>.just(book)
                 cell.onBookData(subject: subject)
                 
-            }.disposed(by: disposeBag)
+            }.disposed(by: self.disposeBag)
     }
     
     func onFetchedError(subject: Observable<Error>) {
-        switchView(error: true)
+        self.switchView(error: true)
     }
     
     private func switchView(error: Bool) {
         guard errorFlag != error else { return }
         
-        errorView.play = error
-        errorView.isHidden = !error
-        collectionView.isHidden = error
-        errorFlag = error
+        self.errorView.play = error
+        self.errorView.isHidden = !error
+        self.collectionView.isHidden = error
+        self.errorFlag = error
     }
 }
 

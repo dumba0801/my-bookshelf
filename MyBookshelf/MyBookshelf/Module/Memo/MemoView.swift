@@ -32,7 +32,7 @@ final class MemoViewController: UIViewController {
         let label = UILabel()
         label.text = Constant.bodyTextViewPlaceHolder
         label.textColor = Constant.bodyTextViewPlaceHolderColor
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = Font.bodyTextViewPlaceHolderLabel
         return label
     }()
     
@@ -55,7 +55,7 @@ final class MemoViewController: UIViewController {
         self.addSubviews()
         self.configureLayout()
         
-        rightBarButton.rx.tap.bind { [weak self] _ in
+        self.rightBarButton.rx.tap.bind { [weak self] _ in
             guard
                 let self = self,
                 let presenter = self.presenter
@@ -64,7 +64,7 @@ final class MemoViewController: UIViewController {
             }
             
             presenter.saveMemo(title: self.titleTextField.text, body: self.bodyTextView.text)
-        }.disposed(by: disposeBag)
+        }.disposed(by: self.disposeBag)
     }
     
     private func addSubviews() {
@@ -89,9 +89,8 @@ final class MemoViewController: UIViewController {
         self.bodyTextView.snp.makeConstraints { make in
             make.top.equalTo(self.titleTextField.snp.bottom).offset(Metric.bodyTextViewTop)
             make.leading.trailing.bottom.equalToSuperview()
-                .inset(Metric.bodyTextViewLeadingTrailingBottom)
+                .inset(Metric.bodyTextViewBottomLeadingTrailing)
         }
-        
     }
 }
 
@@ -113,7 +112,11 @@ extension MemoViewController {
         static let bodyTextViewPlaceHolderLabelTop = CGFloat(30)
         static let bodyTextViewPlaceHolderLabelLeadingTrailing = CGFloat(44)
         static let bodyTextViewTop = CGFloat(20)
-        static let bodyTextViewLeadingTrailingBottom = CGFloat(40)
+        static let bodyTextViewBottomLeadingTrailing = CGFloat(40)
+    }
+    
+    private enum Font {
+        static let bodyTextViewPlaceHolderLabel = UIFont.systemFont(ofSize: 12)
     }
     
     private enum Constant {

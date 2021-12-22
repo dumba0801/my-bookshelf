@@ -23,7 +23,7 @@ extension MemoPresenter: MemoPresenterType {
         guard
             let title = title,
             let body = body,
-            let interactor = interactor
+            let interactor = self.interactor
         else {
             return
         }
@@ -33,7 +33,7 @@ extension MemoPresenter: MemoPresenterType {
     }
     
     func dismiss() {
-        guard let router = router else { return }
+        guard let router = self.router else { return }
         router.dismiss()
     }
 }

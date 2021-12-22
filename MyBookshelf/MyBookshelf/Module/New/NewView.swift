@@ -43,44 +43,38 @@ final class NewViewController: UIViewController {
         guard let presenter = presenter else { return }
         
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        navigationItem.title = Constant.navigationTitle
-        addSubviews()
-        configureLayout()
+        self.view.backgroundColor = .systemBackground
+        self.navigationItem.title = Constant.navigationTitle
+        self.addSubviews()
+        self.configureLayout()
         
-        presenter.fetchNewBooks(subject: Observable.just(()))
+        let viewDidLoad = Observable.just(())
+        let retry = self.errorView.rx.retry.map{ $0 }
+        let fetchSubject = Observable.of(viewDidLoad, retry).merge()
         
-        collectionView.rx.modelSelected(Book.self)
+        presenter.fetchNewBooks(subject: fetchSubject)
+        
+        self.collectionView.rx.modelSelected(Book.self)
             .subscribe(onNext: { book in
                 guard let isbn13 = book.isbn13 else { return }
                 presenter.showDetail(isbn13: isbn13)
-            }).disposed(by: disposeBag)
+            }).disposed(by: self.disposeBag)
         
-        errorView.rx.retry
-            .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .bind { [weak self] _ in
-            guard
-                let self = self,
-                let presenter = self.presenter
-            else { return }
-            
-            presenter.fetchNewBooks(subject: Observable.just(()))
-            
-        }.disposed(by: disposeBag)
+        
     }
     
     private func addSubviews() {
-        view.addSubview(collectionView)
-        view.addSubview(errorView)
+        self.view.addSubview(self.collectionView)
+        self.view.addSubview(self.errorView)
     }
     
     private func configureLayout() {
-        collectionView.snp.makeConstraints { make in
+        self.collectionView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(Metric.collectionViewLeadingTrailng)
         }
         
-        errorView.snp.makeConstraints { make in
+        self.errorView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -88,30 +82,30 @@ final class NewViewController: UIViewController {
 
 extension NewViewController: NewViewControllerType {
     func onFetchedNewBooks(subject: Observable<[Book]>) {
-        switchView(error: false)
+        self.switchView(error: false)
         
         subject
-            .bind(to: collectionView.rx.items(cellIdentifier: Cell.identifier,
-                                              cellType: Cell.self)) {
+            .bind(to: self.collectionView.rx.items(cellIdentifier: Cell.identifier,
+                                                   cellType: Cell.self)) {
                 _, book, cell in
                 
                 let subject = Observable<Book>.just(book)
                 cell.onBookData(subject: subject)
                 
-            }.disposed(by: disposeBag)
+            }.disposed(by: self.disposeBag)
     }
     
     func onFetchedError(subject: Observable<Error>) {
-        switchView(error: true)
+        self.switchView(error: true)
     }
     
     private func switchView(error: Bool) {
         guard errorFlag != error else { return }
         
-        errorView.play = error
-        errorView.isHidden = !error
-        collectionView.isHidden = error
-        errorFlag = error
+        self.errorView.play = error
+        self.errorView.isHidden = !error
+        self.collectionView.isHidden = error
+        self.errorFlag = error
     }
 }
 

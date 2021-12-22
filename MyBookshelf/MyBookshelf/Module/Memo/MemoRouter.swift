@@ -24,7 +24,7 @@ final class MemoRouter {
         presenter.view = view
         presenter.router = self
         view.presenter = presenter
-    
+        
         return view
     }
     
@@ -32,7 +32,7 @@ final class MemoRouter {
 
 extension MemoRouter: MemoRouterType {
     func dismiss() {
-        guard let navigation = navigation else { return }
+        guard let navigation = self.navigation else { return }
         navigation.dismiss(animated: true, completion: nil)
     }
     

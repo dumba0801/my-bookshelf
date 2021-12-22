@@ -10,7 +10,7 @@ import UIKit
 
 protocol SearchRouterType: AnyObject {
     var navigation: UINavigationController? { get }
-
+    
     func createModule() -> SearchViewController
     func showDetail(isbn13: String)
 }
@@ -33,10 +33,10 @@ final class SearchRouter: SearchRouterType {
     }
     
     func showDetail(isbn13: String) {
-        guard let navigation = navigation else { return }
+        guard let navigation = self.navigation else { return }
         let router = DetailRouter()
         router.navigation = navigation
         navigation.pushViewController(router.createModule(isbn13: isbn13), animated: true)
     }
-
+    
 }

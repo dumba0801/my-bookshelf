@@ -26,25 +26,25 @@ final class SearchInteractor: SearchInteractorType {
         guard let presenter = presenter else { return }
         let subject = BehaviorSubject<[(String, [Book])]>(value: [])
         
-        pagination(subject: subject, keyword: keyword)
+        self.pagination(subject: subject, keyword: keyword)
         
         let mapSubject = subject.map{ $0.sorted{ $0.0 < $1.0 }.reduce([]) { $0 + $1.1 } }
         
         mapSubject
             .subscribe { books in
-            let subject = Observable<[Book]>.just(books)
-            presenter.onFetchedSearchBook(subject: subject)
-        } onError: { error in
-            let subject = Observable<Error>.just(error)
-            presenter.onFetchedError(subject: subject)
-        }.disposed(by: disposeBag)
+                let subject = Observable<[Book]>.just(books)
+                presenter.onFetchedSearchBook(subject: subject)
+            } onError: { error in
+                let subject = Observable<Error>.just(error)
+                presenter.onFetchedError(subject: subject)
+            }.disposed(by: self.disposeBag)
     }
     
     private func pagination(subject: BehaviorSubject<[(String, [Book])]>,
-                    keyword: String,
-                    page: String = "1"
+                            keyword: String,
+                            page: String = "1"
     ) {
-        requestSearchBooks(keyword: keyword, page: page)
+        self.requestSearchBooks(keyword: keyword, page: page)
             .subscribe { [weak self] (page, books) in
                 guard let self = self,
                       let page = Int(page),
@@ -63,7 +63,7 @@ final class SearchInteractor: SearchInteractorType {
                 }
             }  onFailure: { error in
                 subject.onError(error)
-            }.disposed(by: disposeBag)
+            }.disposed(by: self.disposeBag)
     }
     
     private func requestSearchBooks(keyword: String, page: String) -> Single<(String, [Book])> {

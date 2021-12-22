@@ -35,7 +35,7 @@ extension DetailInteractor: DetailInteractorType {
     func fetchDetailBook() {
         guard let presenter = presenter else { return }
         
-        requestDetailBook()
+        self.requestDetailBook()
             .subscribe { book in
                 let subject = Observable<DetailBook>.just(book)
                 presenter.onFetchedDetailBook(subject: subject)
@@ -48,7 +48,7 @@ extension DetailInteractor: DetailInteractorType {
     private func requestDetailBook() -> Single<DetailBook> {
         let endpoint = EndPoint(path: .detail(isbn13))
         let url = endpoint.url()
-        return service.request(convertible: url)
+        return self.service.request(convertible: url)
             .map { data in
                 let json = JSON(data)
                 guard let book = Mapper<DetailBook>().map(JSONObject: json.rawValue) else {
@@ -60,7 +60,7 @@ extension DetailInteractor: DetailInteractorType {
     
     
     func fetchMemos() {
-        guard let presenter = presenter else { return }
+        guard let presenter = self.presenter else { return }
         
         do {
             let realm = try Realm()

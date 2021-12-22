@@ -24,9 +24,9 @@ class ErrorView: UIView {
         label.text = Text.firstLabel
         return label
     }()
-
+    
     private lazy var secondLabel : UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = Text.secondLabel
         return label
     }()
@@ -38,45 +38,45 @@ class ErrorView: UIView {
     
     var play = false {
         didSet {
-            playAnimation(flag: play)
+            self.playAnimation(flag: play)
         }
     }
-        
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubviews()
-        configurationLayout()
+        self.addSubviews()
+        self.configurationLayout()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     private func addSubviews() {
-        addSubview(disconnectAnimationView)
-        addSubview(firstLabel)
-        addSubview(secondLabel)
-        addSubview(retryButton)
+        self.addSubview(self.disconnectAnimationView)
+        self.addSubview(self.firstLabel)
+        self.addSubview(self.secondLabel)
+        self.addSubview(self.retryButton)
     }
     
     private func configurationLayout() {
-        disconnectAnimationView.snp.makeConstraints { view in
-            view.centerX.equalTo(firstLabel.snp.centerX)
-            view.bottom.equalTo(firstLabel.snp.top).offset(-Metric.disconnectedAnimationViewBottom)
+        self.disconnectAnimationView.snp.makeConstraints { view in
+            view.centerX.equalTo(self.firstLabel.snp.centerX)
+            view.bottom.equalTo(self.firstLabel.snp.top).offset(-Metric.disconnectedAnimationViewBottom)
         }
         
-        firstLabel.snp.makeConstraints { label in
+        self.firstLabel.snp.makeConstraints { label in
             label.center.equalToSuperview()
         }
         
-        secondLabel.snp.makeConstraints { label in
-            label.centerX.equalTo(firstLabel.snp.centerX)
-            label.top.equalTo(firstLabel.snp.bottom).offset(Metric.secondLabelTop)
+        self.secondLabel.snp.makeConstraints { label in
+            label.centerX.equalTo(self.firstLabel.snp.centerX)
+            label.top.equalTo(self.firstLabel.snp.bottom).offset(Metric.secondLabelTop)
         }
         
-        retryButton.snp.makeConstraints { button in
-            button.centerX.equalTo(secondLabel)
-            button.top.equalTo(secondLabel.snp.bottom).offset(Metric.retryButtonTop)
+        self.retryButton.snp.makeConstraints { button in
+            button.centerX.equalTo(self.secondLabel)
+            button.top.equalTo(self.secondLabel.snp.bottom).offset(Metric.retryButtonTop)
             button.height.equalTo(Metric.retryButtonHeight)
             button.width.equalTo(Metric.retryButtonWidth)
         }
@@ -84,7 +84,7 @@ class ErrorView: UIView {
     
     private func playAnimation(flag: Bool) {
         guard flag else { return }
-        disconnectAnimationView.play()
+        self.disconnectAnimationView.play()
     }
     
 }
