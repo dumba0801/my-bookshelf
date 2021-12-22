@@ -12,6 +12,7 @@ target 'MyBookshelf' do
     pod 'SwiftyJSON', '~> 4.0'
     pod 'RxSwift', '6.2.0'
     pod 'RxCocoa', '6.2.0'
+    pod "RxRealm"
     pod 'Alamofire', '~> 5.5'
     pod 'lottie-ios'
 

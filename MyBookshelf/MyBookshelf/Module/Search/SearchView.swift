@@ -86,6 +86,12 @@ final class SearchViewController: UIViewController {
             }.disposed(by: disposeBag)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
+
+    
     private func addSubviews() {
         view.addSubview(searchBar)
         view.addSubview(collectionView)

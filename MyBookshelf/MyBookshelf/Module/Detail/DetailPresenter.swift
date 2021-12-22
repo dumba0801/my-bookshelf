@@ -10,8 +10,10 @@ import RxSwift
 
 protocol DetailPresenterType: AnyObject {
     func fetchDetailBook(subject: Observable<Void>)
+    func fetchMemos(subject: Observable<Void>)
     func onFetchedDetailBook(subject: Observable<DetailBook>)
     func onFetchedError(subject: Observable<Error>)
+    func onFetchedMemos(subject: Observable<[Memo]>)
     func showMemoModal()
 }
 
@@ -27,11 +29,25 @@ extension DetailPresenter: DetailPresenterType {
     func fetchDetailBook(subject: Observable<Void>) {
         subject.subscribe(onNext: {
             [weak self] _ in
-                guard
-                    let self = self,
-                    let interactor = self.interactor
-                else { return }
-                interactor.fetchDetailBook()
+            guard
+                let self = self,
+                let interactor = self.interactor
+            else { return }
+            interactor.fetchDetailBook()
+        }).disposed(by: disposeBag)
+    }
+    
+    func fetchMemos(subject: Observable<Void>) {
+        subject.subscribe(onNext: {
+            [weak self] _ in
+            guard
+                let self = self,
+                let interactor = self.interactor
+            else {
+                return
+            }
+            
+            interactor.fetchMemos()
         }).disposed(by: disposeBag)
     }
     
@@ -53,8 +69,19 @@ extension DetailPresenter: DetailPresenterType {
     }
     
     func showMemoModal() {
-        guard let router = router else { return }
+        guard
+            let router = router,
+            let interactor = interactor
+        else {
+            return
+        }
         
-        router.showMemoModal()
+        router.showMemoModal(isbn13: interactor.isbn13)
+    }
+    
+    func onFetchedMemos(subject: Observable<[Memo]>) {
+        guard let view = view else { return }
+        
+        view.onFetchedMemos(subject: subject)
     }
 }

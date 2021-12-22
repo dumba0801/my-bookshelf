@@ -13,6 +13,7 @@ protocol DetailViewControllerType: AnyObject {
     var presenter: DetailPresenterType? { get }
     
     func onFetchdedDeatilBook(subject: Observable<DetailBook>)
+    func onFetchedMemos(subject: Observable<[Memo]>)
     func onFetchedError(subject: Observable<Error>)
 }
 
@@ -67,6 +68,13 @@ final class DetailViewController: UIViewController {
                 
             }.disposed(by: disposeBag)
         
+        
+        guard let presenter = presenter else {
+            return
+        }
+        
+        presenter.fetchMemos(subject: Observable.just(()))
+        
         scrollView.rx.addMemo.bind { [weak self] _ in
             guard let self = self,
                   let presenter = self.presenter
@@ -76,13 +84,13 @@ final class DetailViewController: UIViewController {
             
             presenter.showMemoModal()
         }.disposed(by: disposeBag)
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         tabBarController?.tabBar.isHidden = false
     }
+
     
     private func addSubviews() {
         view.addSubview(scrollView)
@@ -134,5 +142,11 @@ extension DetailViewController: DetailViewControllerType {
             guard let self = self else { return }
             self.activityIndicator.stopAnimating()
         }.disposed(by: disposeBag)
+    }
+    
+    func onFetchedMemos(subject: Observable<[Memo]>) {
+        subject
+            .bind(to: scrollView.rx.memos)
+            .disposed(by: disposeBag)
     }
 }

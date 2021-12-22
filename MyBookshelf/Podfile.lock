@@ -2,9 +2,19 @@ PODS:
   - Alamofire (5.5.0)
   - lottie-ios (3.3.0)
   - ObjectMapper (3.5.3)
+  - Realm (10.20.1):
+    - Realm/Headers (= 10.20.1)
+  - Realm/Headers (10.20.1)
+  - RealmSwift (10.20.1):
+    - Realm (= 10.20.1)
   - RxCocoa (6.2.0):
     - RxRelay (= 6.2.0)
     - RxSwift (= 6.2.0)
+  - RxRealm (5.0.3):
+    - Realm (~> 10.7)
+    - RealmSwift (~> 10.7)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxRelay (6.2.0):
     - RxSwift (= 6.2.0)
   - RxSwift (6.2.0)
@@ -16,6 +26,7 @@ DEPENDENCIES:
   - lottie-ios
   - ObjectMapper (~> 3.5)
   - RxCocoa (= 6.2.0)
+  - RxRealm
   - RxSwift (= 6.2.0)
   - SnapKit (~> 5.0.0)
   - SwiftyJSON (~> 4.0)
@@ -25,7 +36,10 @@ SPEC REPOS:
     - Alamofire
     - lottie-ios
     - ObjectMapper
+    - Realm
+    - RealmSwift
     - RxCocoa
+    - RxRealm
     - RxRelay
     - RxSwift
     - SnapKit
@@ -35,12 +49,15 @@ SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
   lottie-ios: 6ac74dcc09904798f59b18cb3075c089d76be9ae
   ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
+  Realm: fac5ecd031fcb81171627b74944c885662d4b266
+  RealmSwift: 9b02d25acb46a14756bde9893abb99e2e3675923
   RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
+  RxRealm: d9fedf16e3ead54b0be2077d2ff4a1b2dc27be39
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: ff71aead7f6de8723a0667b46d211704fe0cf9ac
+PODFILE CHECKSUM: 219a05d4c1f1926acdee9d739dd59081f8088971
 
 COCOAPODS: 1.11.2

@@ -43,7 +43,6 @@ final class NewViewController: UIViewController {
         guard let presenter = presenter else { return }
         
         super.viewDidLoad()
-        
         view.backgroundColor = .systemBackground
         navigationItem.title = Constant.navigationTitle
         addSubviews()

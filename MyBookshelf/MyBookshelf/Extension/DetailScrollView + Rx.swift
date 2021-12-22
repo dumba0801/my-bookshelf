@@ -18,4 +18,10 @@ extension Reactive where Base: DetailScrollView {
     var addMemo: ControlEvent<Void> {
         base.addMemoButton.rx.tap
     }
+    
+    var memos: Binder<[Memo]> {
+        return Binder(self.base) { view, memos in
+            view.memos = memos
+        }
+    }
 }

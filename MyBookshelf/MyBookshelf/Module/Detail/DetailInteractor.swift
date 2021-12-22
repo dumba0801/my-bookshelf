@@ -9,16 +9,20 @@ import Foundation
 import RxSwift
 import ObjectMapper
 import SwiftyJSON
+import RealmSwift
 
 protocol DetailInteractorType: AnyObject {
     var presenter: DetailPresenterType? { get }
+    var isbn13: String { get }
     var service: APIService { get }
+    
     func fetchDetailBook()
+    func fetchMemos()
 }
 
 final class DetailInteractor {
     weak var presenter: DetailPresenterType?
-    private let isbn13: String
+    let isbn13: String
     let service = APIService.shared
     private var disposeBag = DisposeBag()
     
@@ -52,5 +56,21 @@ extension DetailInteractor: DetailInteractorType {
                 }
                 return book
             }
+    }
+    
+    
+    func fetchMemos() {
+        guard let presenter = presenter else { return }
+        
+        do {
+            let realm = try Realm()
+            let memos = realm.objects(Memo.self).filter("isbn13 == '\(isbn13)'")
+            
+            let subject = Observable.array(from: memos)
+            
+            presenter.onFetchedMemos(subject: subject)
+        } catch let error {
+            print(error)
+        }
     }
 }
