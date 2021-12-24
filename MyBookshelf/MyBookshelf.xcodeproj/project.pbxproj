@@ -22,7 +22,7 @@
 		3143BAB02772E5BF00A96850 /* SearchModuleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAAF2772E5BF00A96850 /* SearchModuleProtocols.swift */; };
 		3143BAB22772E61A00A96850 /* DetailModuleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3143BAB12772E61A00A96850 /* DetailModuleProtocols.swift */; };
 		317848B227705AFC003C1D9E /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B127705AFC003C1D9E /* BaseTabBarController.swift */; };
-		317848B427706DEF003C1D9E /* DetailBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B327706DEF003C1D9E /* DetailBook.swift */; };
+		317848B427706DEF003C1D9E /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B327706DEF003C1D9E /* Book.swift */; };
 		317848B6277075ED003C1D9E /* ErrorView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B5277075ED003C1D9E /* ErrorView.swift.swift */; };
 		317848B827707989003C1D9E /* disconnected.json in Resources */ = {isa = PBXBuildFile; fileRef = 317848B727707989003C1D9E /* disconnected.json */; };
 		317848BA27709A11003C1D9E /* ErrorView + Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317848B927709A11003C1D9E /* ErrorView + Rx.swift */; };
@@ -37,7 +37,6 @@
 		31969F1127688538004DA6E1 /* NewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1027688538004DA6E1 /* NewPresenter.swift */; };
 		31969F1327688540004DA6E1 /* NewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1227688540004DA6E1 /* NewRouter.swift */; };
 		31969F1627688563004DA6E1 /* NewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1527688563004DA6E1 /* NewView.swift */; };
-		31969F1C2768A2D0004DA6E1 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1B2768A2D0004DA6E1 /* Book.swift */; };
 		31969F1E27698237004DA6E1 /* BookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1D27698237004DA6E1 /* BookCollectionViewCell.swift */; };
 		31969F202769A0BD004DA6E1 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31969F1F2769A0BD004DA6E1 /* APIService.swift */; };
 		319B94BE276F0D2200F2BFB5 /* DetailScrollView + Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319B94BD276F0D2200F2BFB5 /* DetailScrollView + Rx.swift */; };
@@ -90,7 +89,7 @@
 		3143BAAF2772E5BF00A96850 /* SearchModuleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModuleProtocols.swift; sourceTree = "<group>"; };
 		3143BAB12772E61A00A96850 /* DetailModuleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModuleProtocols.swift; sourceTree = "<group>"; };
 		317848B127705AFC003C1D9E /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
-		317848B327706DEF003C1D9E /* DetailBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBook.swift; sourceTree = "<group>"; };
+		317848B327706DEF003C1D9E /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		317848B5277075ED003C1D9E /* ErrorView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift.swift; sourceTree = "<group>"; };
 		317848B727707989003C1D9E /* disconnected.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = disconnected.json; sourceTree = "<group>"; };
 		317848B927709A11003C1D9E /* ErrorView + Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ErrorView + Rx.swift"; sourceTree = "<group>"; };
@@ -109,7 +108,6 @@
 		31969F1027688538004DA6E1 /* NewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPresenter.swift; sourceTree = "<group>"; };
 		31969F1227688540004DA6E1 /* NewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRouter.swift; sourceTree = "<group>"; };
 		31969F1527688563004DA6E1 /* NewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewView.swift; sourceTree = "<group>"; };
-		31969F1B2768A2D0004DA6E1 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		31969F1D27698237004DA6E1 /* BookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCollectionViewCell.swift; sourceTree = "<group>"; };
 		31969F1F2769A0BD004DA6E1 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		319B94BD276F0D2200F2BFB5 /* DetailScrollView + Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailScrollView + Rx.swift"; sourceTree = "<group>"; };
@@ -274,8 +272,7 @@
 		31969F1A2768A2BA004DA6E1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				31969F1B2768A2D0004DA6E1 /* Book.swift */,
-				317848B327706DEF003C1D9E /* DetailBook.swift */,
+				317848B327706DEF003C1D9E /* Book.swift */,
 				3143BAA72771A32100A96850 /* Memo.swift */,
 			);
 			path = Model;
@@ -632,12 +629,11 @@
 				3143BA992771684A00A96850 /* RetryButton.swift in Sources */,
 				3143BAAE2772E50E00A96850 /* NewModuleProtocols.swift in Sources */,
 				319BE18A276C6828003DD11F /* DetailInteractor.swift in Sources */,
-				317848B427706DEF003C1D9E /* DetailBook.swift in Sources */,
+				317848B427706DEF003C1D9E /* Book.swift in Sources */,
 				3143BAA22771920900A96850 /* MemoPresenter.swift in Sources */,
 				319BE18C276C71B9003DD11F /* EndPoint.swift in Sources */,
 				319B94BE276F0D2200F2BFB5 /* DetailScrollView + Rx.swift in Sources */,
 				317848B227705AFC003C1D9E /* BaseTabBarController.swift in Sources */,
-				31969F1C2768A2D0004DA6E1 /* Book.swift in Sources */,
 				31969F1627688563004DA6E1 /* NewView.swift in Sources */,
 				3143BAA42771921100A96850 /* MemoInteractor.swift in Sources */,
 				3143BAA82771A32100A96850 /* Memo.swift in Sources */,

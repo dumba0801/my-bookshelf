@@ -11,9 +11,8 @@ import RxSwift
 protocol DetailViewControllerType: AnyObject {
     var presenter: DetailPresenterType? { get }
     
-    func onFetchdedDeatilBook(subject: Observable<DetailBook>)
-    func onFetchedMemos(subject: Observable<[Memo]>)
-    func onFetchedError(subject: Observable<Error>)
+    func drawView(with data: (Book, [Memo]))
+    func drawErrorView(with error: Error)
 }
 
 protocol DetailInteractorType: AnyObject {
@@ -21,8 +20,8 @@ protocol DetailInteractorType: AnyObject {
     var isbn13: String { get }
     var service: APIService { get }
     
-    func fetchDetailBook()
-    func fetchMemos()
+    func fetchBook() -> Observable<Book>
+    func fetchMemos() -> Observable<[Memo]>
 }
 
 protocol DetailPresenterType: AnyObject {
@@ -30,12 +29,8 @@ protocol DetailPresenterType: AnyObject {
     var interactor: DetailInteractorType? { get }
     var router: DetailRouterType? { get }
     
-    func fetchDetailBook(subject: Observable<Void>)
-    func fetchMemos(subject: Observable<Void>)
-    func onFetchedDetailBook(subject: Observable<DetailBook>)
-    func onFetchedError(subject: Observable<Error>)
-    func onFetchedMemos(subject: Observable<[Memo]>)
-    func showMemoModal()
+    func prepareViewDidLoad()
+    func didTapedAddMemoButton()
 }
 
 protocol DetailRouterType: AnyObject {

@@ -11,6 +11,38 @@ import RxCocoa
 import ObjectMapper
 import SwiftyJSON
 
+
+struct BookInfo {
+    let title: String
+    let subtitle: String
+    let isbn13: String
+    let price: String
+    let imageUrl: String
+    
+    init(
+        title: String,
+        subtitle: String,
+        isbn13: String,
+        price: String,
+        imageUrl: String
+    ) {
+        self.title = title
+        self.subtitle = subtitle
+        self.isbn13 = isbn13
+        self.price = price
+        self.imageUrl = imageUrl
+    }
+    
+    init(book: Book) {
+        self.title = book.title
+        self.subtitle = book.subtitle
+        self.isbn13 = book.isbn13
+        self.price = book.price
+        self.imageUrl = book.imageUrl
+    }
+}
+
+
 final class NewInteractor {
     weak var presenter: NewPresenterType?
     let service = APIService.shared
@@ -19,18 +51,11 @@ final class NewInteractor {
 }
 
 extension NewInteractor: NewInteractorType {
-    func fetchNewBooks() {
-        guard let presenter = self.presenter else { return }
-        
-        self.requestNewBooks()
-            .subscribe { book in
-                let subject = Observable<[Book]>.just(book)
-                presenter.onFetchedNewBooks(subject: subject)
-            } onFailure: { error in
-                let subject = Observable<Error>.just(error)
-                presenter.onFetchedError(subject: subject)
-            }.disposed(by: self.disposeBag)
-        
+    func fetchNewBooks() -> Observable<[BookInfo]> {
+        return self.requestNewBooks()
+            .subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
+            .map { $0.map{ BookInfo(book: $0)} }
+            .asObservable()
     }
     
     private func requestNewBooks() -> Single<[Book]> {

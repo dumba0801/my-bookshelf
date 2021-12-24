@@ -11,6 +11,8 @@ import RxCocoa
 import SnapKit
 
 final class NewViewController: UIViewController {
+    
+    //MARK: - View
     typealias Cell = BookCollectionViewCell
     
     private lazy var collectionView: UICollectionView = {
@@ -29,32 +31,41 @@ final class NewViewController: UIViewController {
     
     var presenter: NewPresenterType?
     
+    private var booksRelay = PublishRelay<[BookInfo]>()
     private var errorFlag = false
-    
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
-        guard let presenter = presenter else { return }
-        
         super.viewDidLoad()
+        
         self.view.backgroundColor = .systemBackground
         self.navigationItem.title = Constant.navigationTitle
         self.addSubviews()
         self.configureLayout()
+        self.presenter?.prepareViewDidLoad()
         
-        let viewDidLoad = Observable.just(())
-        let retry = self.errorView.rx.retry.map{ $0 }
-        let fetchSubject = Observable.of(viewDidLoad, retry).merge()
-        
-        presenter.fetchNewBooks(subject: fetchSubject)
-        
-        self.collectionView.rx.modelSelected(Book.self)
-            .subscribe(onNext: { book in
-                guard let isbn13 = book.isbn13 else { return }
-                presenter.showDetail(isbn13: isbn13)
+        self.collectionView
+            .rx
+            .modelSelected(BookInfo.self)
+            .subscribe(onNext: { [weak self] book in
+                self?.presenter?.didTapedBookCell(isbn13: book.isbn13)
             }).disposed(by: self.disposeBag)
         
+        self.booksRelay
+            .bind(to: collectionView.rx.items(cellIdentifier: Cell.identifier,
+                                                    cellType: Cell.self)
+        ) { _, book, cell in
+            
+            cell.onBook(with: book)
+        }.disposed(by: self.disposeBag)
         
+        self.errorView
+            .rx
+            .retry
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.presenter?.didTapedRetryButton()
+            }
     }
     
     private func addSubviews() {
@@ -75,21 +86,13 @@ final class NewViewController: UIViewController {
 }
 
 extension NewViewController: NewViewControllerType {
-    func onFetchedNewBooks(subject: Observable<[Book]>) {
-        self.switchView(error: false)
         
-        subject
-            .bind(to: self.collectionView.rx.items(cellIdentifier: Cell.identifier,
-                                                   cellType: Cell.self)) {
-                _, book, cell in
-                
-                let subject = Observable<Book>.just(book)
-                cell.onBookData(subject: subject)
-                
-            }.disposed(by: self.disposeBag)
+    func drawView(with books: [BookInfo]) {
+        self.switchView(error: false)
+        self.booksRelay.accept(books)
     }
     
-    func onFetchedError(subject: Observable<Error>) {
+    func drawErrorView(with error: Error) {
         self.switchView(error: true)
     }
     
@@ -111,13 +114,6 @@ extension NewViewController: UICollectionViewDelegateFlowLayout {
         let height = view.bounds.height * Metric.collectionViewHeight
         
         return CGSize(width: width, height: height)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        willDisplay cell: UICollectionViewCell,
-                        forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? Cell else { return }
-        cell.adjustLayout()
     }
 }
 

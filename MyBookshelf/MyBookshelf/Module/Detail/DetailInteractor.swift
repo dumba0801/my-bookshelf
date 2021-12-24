@@ -23,45 +23,34 @@ final class DetailInteractor {
 }
 
 extension DetailInteractor: DetailInteractorType {
-    func fetchDetailBook() {
-        guard let presenter = self.presenter else { return }
-        
+    func fetchBook() -> Observable<Book> {
         self.requestDetailBook()
-            .subscribe { book in
-                let subject = Observable<DetailBook>.just(book)
-                presenter.onFetchedDetailBook(subject: subject)
-            } onFailure: { error in
-                let subject = Observable<Error>.just(error)
-                presenter.onFetchedError(subject: subject)
-            }.disposed(by: disposeBag)
+            .observe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
+            .asObservable()
     }
     
-    private func requestDetailBook() -> Single<DetailBook> {
+    private func requestDetailBook() -> Single<Book> {
         let endpoint = EndPoint(path: .detail(isbn13))
         let url = endpoint.url()
         return self.service.request(convertible: url)
             .map { data in
                 let json = JSON(data)
-                guard let book = Mapper<DetailBook>().map(JSONObject: json.rawValue) else {
+                guard let book = Mapper<Book>().map(JSONObject: json.rawValue) else {
                     throw RxError.noElements
                 }
                 return book
             }
     }
     
-    
-    func fetchMemos() {
-        guard let presenter = self.presenter else { return }
-        
+    func fetchMemos() -> Observable<[Memo]> {
         do {
             let realm = try Realm()
             let memos = realm.objects(Memo.self).filter("isbn13 == '\(isbn13)'")
             
-            let subject = Observable.array(from: memos)
+            return Observable.array(from: memos)
             
-            presenter.onFetchedMemos(subject: subject)
         } catch let error {
-            print(error)
+            return Observable.error(error)
         }
     }
 }

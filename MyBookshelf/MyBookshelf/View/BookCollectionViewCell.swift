@@ -81,26 +81,21 @@ class BookCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func onBookData(subject: Observable<Book>) {
-        subject.map { $0.title }
-        .bind(to: self.titleLabel.rx.text)
-        .disposed(by: self.disposeBag)
+    func onBook(with book: BookInfo) {
+        book.imageUrl.image()
+            .asObservable()
+            .bind(to: self.imageView.rx.image)
+            .disposed(by: self.disposeBag)
         
-        subject.compactMap{ $0.subtitle }
-        .bind(to: self.subtitleLabel.rx.text)
-        .disposed(by: self.disposeBag)
+        self.titleLabel.text = book.title
+        self.subtitleLabel.text = book.subtitle
+        self.priceLabel.text = book.price
         
-        subject.map{ $0.price }
-        .bind(to: self.priceLabel.rx.text)
-        .disposed(by: self.disposeBag)
-        
-        subject.compactMap{ $0.image }
-        .flatMap { $0.image() }
-        .bind(to: self.imageView.rx.image)
-        .disposed(by: self.disposeBag)
+        self.adjustLayout()
     }
     
-    func adjustLayout() {
+    //MARK: - private func
+    private func adjustLayout() {
         _ = self.subtitleLabel.text != nil
         ? self.nonEmptySubtitleLabelLayout() : self.emptySubtitleLabelLayout()
     }
@@ -120,6 +115,7 @@ class BookCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    //MARK: - override func
     override func prepareForReuse() {
         super.prepareForReuse()
         self.imageView.image = nil

@@ -13,6 +13,7 @@ import SnapKit
 final class SearchViewController: UIViewController {
     typealias Cell = BookCollectionViewCell
     
+    //MARK: - View
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .minimal
@@ -34,37 +35,53 @@ final class SearchViewController: UIViewController {
         return view
     }()
     
+    //MARK: - public property
     var presenter: SearchPresenterType?
     
+    //MARK: - private property
+    private var books = PublishRelay<[BookInfo]>()
     private var errorFlag = false
-    
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
-        guard let presenter = presenter else { return }
-        
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.navigationItem.title = Constant.navigationTitle
         self.addSubviews()
         self.configureLayout()
         
-        let searchButtonClicked = self.searchBar.rx.searchButtonClicked
-        let retry = self.errorView.rx.retry
-        let fetchSubject = Observable.of(searchButtonClicked, retry)
-                                .merge()
-                                .map { [weak self] _ -> String? in
-                                    guard let self = self else { return nil }
-                                    return self.searchBar.text
-                                }
+        self.searchBar
+            .rx
+            .searchButtonClicked
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.presenter?.didTapedSearchButton(with: self?.searchBar.text)
+            }
         
-        presenter.fetchSearchBook(subject: fetchSubject)
-        
-        self.collectionView.rx.modelSelected(Book.self)
-            .subscribe(onNext: { book in
-                guard let isbn13 = book.isbn13 else { return }
-                presenter.showDetail(isbn13: isbn13)
+        self.collectionView
+            .rx
+            .modelSelected(BookInfo.self)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] book in
+                self?.presenter?.didTapedBookCell(isbn13: book.isbn13)
             }).disposed(by: self.disposeBag)
+        
+        self.errorView
+            .rx
+            .retry
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                self?.presenter?.didTapedRetryButton(with: self?.searchBar.text)
+            }
+        
+        self.books
+            .observe(on: MainScheduler.instance)
+            .bind(to: self.collectionView.rx.items(cellIdentifier: Cell.identifier,
+                                                   cellType: Cell.self)
+            ) { _, book, cell in
+                
+                cell.onBook(with: book)
+            }.disposed(by: self.disposeBag)
         
     }
     
@@ -72,7 +89,6 @@ final class SearchViewController: UIViewController {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
     }
-    
     
     private func addSubviews() {
         self.view.addSubview(searchBar)
@@ -99,21 +115,12 @@ final class SearchViewController: UIViewController {
 }
 
 extension SearchViewController: SearchViewType {
-    func onFetchedSearchBooks(subject: Observable<[Book]>) {
+    func drawView(with books: [BookInfo]) {
         self.switchView(error: false)
-        self.collectionView.dataSource = nil
-        subject
-            .bind(to: self.collectionView.rx.items(cellIdentifier: Cell.identifier,
-                                                   cellType: Cell.self)) {
-                _, book, cell in
-                
-                let subject = Observable<Book>.just(book)
-                cell.onBookData(subject: subject)
-                
-            }.disposed(by: self.disposeBag)
+        self.books.accept(books)
     }
     
-    func onFetchedError(subject: Observable<Error>) {
+    func drawErrorView(with error: Error) {
         self.switchView(error: true)
     }
     
@@ -135,13 +142,6 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
         let height = view.bounds.height * Metric.collectionViewHeight
         
         return CGSize(width: width, height: height)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        willDisplay cell: UICollectionViewCell,
-                        forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? Cell else { return }
-        cell.adjustLayout()
     }
 }
 

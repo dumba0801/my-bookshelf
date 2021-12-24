@@ -8,42 +8,42 @@
 import Foundation
 import RxSwift
 
-final class SearchPresenter: SearchPresenterType {
+final class SearchPresenter {
     var interactor: SearchInteractorType?
     var router: SearchRouterType?
     weak var view: SearchViewType?
     
     private var disposeBag = DisposeBag()
-    
-    func fetchSearchBook(subject: Observable<String?>) {
-        subject
-            .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .compactMap{ $0 }
-            .subscribe(onNext: { [weak self] keyword in
-                guard let self = self,
-                      let interactor = self.interactor
-                else { return }
-                
-                interactor.fetchSearchBooks(keyword: keyword)
-            }).disposed(by: self.disposeBag)
-        
-    }
-    
-    func onFetchedSearchBook(subject: Observable<[Book]>) {
-        guard let view = view else { return }
-        
-        view.onFetchedSearchBooks(subject: subject)
-    }
-    
-    func onFetchedError(subject: Observable<Error>) {
-        guard let view = view else { return }
-        
-        view.onFetchedError(subject: subject)
-    }
-    
-    func showDetail(isbn13: String) {
-        guard let router = router else { return }
-        router.showDetail(isbn13: isbn13)
-    }
 }
 
+extension SearchPresenter: SearchPresenterType {
+    func didTapedSearchButton(with keyword: String?) {
+        guard let keyword = keyword else { return }
+        
+        self.requestBooksToInteractor(with: keyword)
+    }
+    
+    func didTapedBookCell(isbn13: String) {
+        self.router?.showDetail(isbn13: isbn13)
+    }
+    
+    func didTapedRetryButton(with keyword: String?) {
+        guard let keyword = keyword else { return }
+        
+        self.requestBooksToInteractor(with: keyword)
+    }
+    
+    private func requestBooksToInteractor(with keyword: String) {
+        self.interactor?
+            .fetchSearchBooks(with: keyword)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] books in
+                self?.view?.drawView(with: books)
+            }, onError: { [weak self] error in
+                self?.view?.drawErrorView(with: error)
+            }).disposed(by: self.disposeBag)
+
+    }
+    
+    
+}

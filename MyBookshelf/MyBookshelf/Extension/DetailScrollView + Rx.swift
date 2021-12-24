@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 extension Reactive where Base: DetailScrollView {
-    var book: Binder<DetailBook?> {
+    var book: Binder<Book?> {
         return Binder(self.base) { view, book in
             view.book = book
         }

@@ -14,34 +14,30 @@ final class NewPresenter {
     var router: NewRouterType?
     weak var view: NewViewControllerType?
     private var disposeBag = DisposeBag()
-    
 }
 
 extension NewPresenter: NewPresenterType {
-    func fetchNewBooks(subject: Observable<Void>) {
-        subject
-            .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] _ in
-                guard
-                    let self = self,
-                    let interactor = self.interactor
-                else { return }
-                interactor.fetchNewBooks()
+    func prepareViewDidLoad() {
+        interactor?.fetchNewBooks()
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] books in
+                self?.view?.drawView(with: books)
+            }, onError: { [weak self] error in
+                self?.view?.drawErrorView(with: error)
             }).disposed(by: self.disposeBag)
     }
     
-    func onFetchedNewBooks(subject: Observable<[Book]>) {
-        guard let view = self.view else { return }
-        view.onFetchedNewBooks(subject: subject)
+    func didTapedRetryButton() {
+        interactor?.fetchNewBooks()
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] books in
+                self?.view?.drawView(with: books)
+            }, onError: { [weak self] error in
+                self?.view?.drawErrorView(with: error)
+            }).disposed(by: self.disposeBag)
     }
-    
-    func onFetchedError(subject: Observable<Error>) {
-        guard let view = self.view else { return }
-        view.onFetchedError(subject: subject)
-    }
-    
-    func showDetail(isbn13: String) {
-        guard let router = self.router else { return }
-        router.showDetail(isbn13: isbn13)
+
+    func didTapedBookCell(isbn13: String) {
+        router?.showDetail(isbn13: isbn13)
     }
 }

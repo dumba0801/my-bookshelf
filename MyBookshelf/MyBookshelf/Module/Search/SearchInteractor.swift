@@ -11,30 +11,28 @@ import RxRelay
 import SwiftyJSON
 import ObjectMapper
 
-final class SearchInteractor: SearchInteractorType {
-    
+final class SearchInteractor {
     weak var presenter: SearchPresenterType?
     let service = APIService.shared
     private var disposeBag = DisposeBag()
-    
-    func fetchSearchBooks(keyword: String) {
-        guard let presenter = self.presenter else { return }
+}
+
+extension SearchInteractor: SearchInteractorType {
+    func fetchSearchBooks(with keyword: String) -> Observable<[BookInfo]> {
         self.disposeBag = DisposeBag()
+        
         let subject = BehaviorSubject<[String: [Book]]>(value: [:])
         
         self.pagination(subject: subject, keyword: keyword)
         
-        let mapSubject = subject.map{ $0.sorted{ $0.0 < $1.0 }.reduce([]) { $0 + $1.1 } }
-        
-        mapSubject
-            .subscribe { books in
-                let subject = Observable<[Book]>.just(books)
-                presenter.onFetchedSearchBook(subject: subject)
-            } onError: { error in
-                let subject = Observable<Error>.just(error)
-                presenter.onFetchedError(subject: subject)
-            }.disposed(by: self.disposeBag)
+        return subject
+            .subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
+            .map{ $0.sorted{ $0.0 < $1.0 }.reduce([]){ $0 + $1.1 } }
+            .map{ $0.map{ BookInfo(book: $0) } }
+            .asObservable()
     }
+    
+    //MARK: - private func
     
     private func pagination(subject: BehaviorSubject<[String: [Book]]>,
                             keyword: String,

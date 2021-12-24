@@ -10,23 +10,27 @@ import RxSwift
 
 protocol NewViewControllerType: AnyObject {
     var presenter: NewPresenterType? { get }
-    func onFetchedNewBooks(subject: Observable<[Book]>)
-    func onFetchedError(subject: Observable<Error>)
+    
+    func drawView(with books: [BookInfo])
+    func drawErrorView(with error: Error)
 }
 
 protocol NewInteractorType: AnyObject {
     var presenter: NewPresenterType? { get }
     var service: APIService { get }
     
-    func fetchNewBooks()
+    func fetchNewBooks() -> Observable<[BookInfo]>
 }
 
 protocol NewPresenterType: AnyObject {
+    var view: NewViewControllerType? { get }
     var interactor: NewInteractorType? { get }
-    func fetchNewBooks(subject: Observable<Void>)
-    func showDetail(isbn13: String)
-    func onFetchedNewBooks(subject: Observable<[Book]>)
-    func onFetchedError(subject: Observable<Error>)
+    var router: NewRouterType? { get }
+    
+    func prepareViewDidLoad()
+    
+    func didTapedBookCell(isbn13: String)
+    func didTapedRetryButton()
 }
 
 protocol NewRouterType: AnyObject {

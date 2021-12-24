@@ -105,7 +105,7 @@ public final class DetailScrollView: UIScrollView {
     
     private var tableViewHeight: Constraint?
     
-    var book: DetailBook? {
+    var book: Book? {
         willSet {
             memoHeaderLabel.isHidden = true
             memoTableView.isHidden = true
@@ -248,22 +248,29 @@ public final class DetailScrollView: UIScrollView {
     }
     
     private func changedBook() {
-        guard let book = book else { return }
+        guard let book = book,
+              let authors = book.authors,
+              let publisher = book.publisher,
+              let language = book.language,
+              let pages = book.pages,
+              let year = book.year,
+              let desc = book.desc
+        else { return }
         
         Observable.just(())
-            .flatMap { _ in book.imageUrl!.image() }
+            .flatMap { _ in book.imageUrl.image() }
             .bind(to: imageView.rx.image)
             .disposed(by: disposeBag)
         
         self.titleLabel.text = book.title
         self.subtitleLabel.text = book.subtitle
-        self.authorsLabel.text = "Authros: " + book.authors
-        self.publisherLabel.text = "Publisher: " + book.publisher
-        self.languageLabel.text = "Language: " + book.language
+        self.authorsLabel.text = "Authros: " + authors
+        self.publisherLabel.text = "Publisher: " + publisher
+        self.languageLabel.text = "Language: " + language
         self.priceLabel.text = "Price: " + book.price
-        self.pagesLabel.text = "Pages: " + book.pages
-        self.yearLabel.text = "Year of publication: " + book.year
-        self.descLabel.text = book.desc
+        self.pagesLabel.text = "Pages: " + pages
+        self.yearLabel.text = "Year of publication: " + year
+        self.descLabel.text = desc
     }
     
     func onMemos() {

@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import RxSwift
+import RxRelay
 
 final class DetailViewController: UIViewController {
     private lazy var scrollView: DetailScrollView = {
@@ -28,34 +29,37 @@ final class DetailViewController: UIViewController {
     }()
     
     var presenter: DetailPresenterType?
+    private var dataRelay = PublishRelay<(Book, [Memo])>()
     private var errorFlag = false
     private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
-        guard let presenter = presenter else { return }
-
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.tabBarController?.tabBar.isHidden = true
         self.addSubviews()
         self.confiureLayout()
+        self.presenter?.prepareViewDidLoad()
         
-        let viewDidLoad = Observable.just(())
-        let retry = self.errorView.rx.retry.map { $0 }
-        let fetchSubject = Observable.of(viewDidLoad, retry)
-                                .merge()
-                                .do(onNext: { [weak self] _ in
-                                    guard let self = self else {return}
-                                    self.activityIndicator.startAnimating()
-                                })
-        
-        presenter.fetchDetailBook(subject: fetchSubject)
-        
-        presenter.fetchMemos(subject: Observable.just(()))
-        
-        self.scrollView.rx.addMemo.bind { _ in
-            presenter.showMemoModal()
+        self.scrollView
+            .rx
+            .addMemo
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+            self?.presenter?.didTapedAddMemoButton()
         }.disposed(by: self.disposeBag)
+        
+        self.dataRelay
+            .observe(on: MainScheduler.instance)
+            .map { $0.0 }
+            .bind(to: self.scrollView.rx.book)
+            .disposed(by: self.disposeBag)
+        
+        self.dataRelay
+            .observe(on: MainScheduler.instance)
+            .map { $0.1 }
+            .bind(to: self.scrollView.rx.memos)
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -83,6 +87,17 @@ final class DetailViewController: UIViewController {
             make.edges.equalToSuperview()
         }
     }
+}
+
+extension DetailViewController: DetailViewControllerType {
+    func drawView(with data: (Book, [Memo])) {
+        self.switchView(error: false)
+        self.dataRelay.accept(data)
+    }
+    
+    func drawErrorView(with error: Error) {
+        self.switchView(error: true)
+    }
     
     private func switchView(error: Bool) {
         guard errorFlag != error else { return }
@@ -91,33 +106,5 @@ final class DetailViewController: UIViewController {
         self.errorView.isHidden = !error
         self.scrollView.isHidden = error
         self.errorFlag = error
-    }
-}
-
-extension DetailViewController: DetailViewControllerType {
-    func onFetchdedDeatilBook(subject: Observable<DetailBook>) {
-        self.switchView(error: false)
-        
-        subject
-            .do(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.activityIndicator.stopAnimating()
-            }).bind(to: self.scrollView.rx.book)
-            .disposed(by: self.disposeBag)
-    }
-    
-    func onFetchedError(subject: Observable<Error>) {
-        self.switchView(error: true)
-        
-        subject.bind { [weak self] _ in
-            guard let self = self else { return }
-            self.activityIndicator.stopAnimating()
-        }.disposed(by: self.disposeBag)
-    }
-    
-    func onFetchedMemos(subject: Observable<[Memo]>) {
-        subject
-            .bind(to: self.scrollView.rx.memos)
-            .disposed(by: self.disposeBag)
     }
 }
